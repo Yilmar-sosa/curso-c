@@ -3,6 +3,14 @@
 *.o
 *.out
 
+# Binarios compilados en Linux (sin extensión)
+calculadora
+cafeteria
+cajero
+pin
+funciones
+duplicar
+
 # Carpeta de binarios del estudiante
 output/
 
