@@ -1,0 +1,11 @@
+# Ejecutables compilados
+*.exe
+*.o
+*.out
+
+# Carpeta de binarios del estudiante
+output/
+
+# Archivos del sistema
+Thumbs.db
+desktop.ini
