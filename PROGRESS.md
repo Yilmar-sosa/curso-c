@@ -2,7 +2,7 @@
 
 Estudiante: Yilmar
 Carpeta del curso: C:\Users\USUARIO\Documents\c
-Última sesión: 2026-08-25 (cierre Etapa 3: reto cajero con funciones aprobado)
+Última sesión: 2026-08-25 (Etapa 3 cerrada + Etapa 4 iniciada: arreglos)
 Repositorio: https://github.com/Yilmar-sosa/curso-c
 
 ## Estado de etapas
@@ -36,6 +36,10 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
   NUNCA afecta printf — tres canales: parámetros / return / pantalla
 - Parámetros = fotocopias (paso por valor): duplicar no cambia el original
 - stdio.h = menú de prototipos ajenos; cuerpos precompilados en la librería (conexión hecha por él)
+- Arreglos: declaración `int notas[5]`, acceso con corchetes `notas[i]`, recorrido con for
+- Un arreglo de N tiene posiciones 0 a N-1 (NOT N) — out of bounds = comportamiento indefinido
+- Inicializar max con `notas[0]` después de leer datos, NO con 0 ni antes del scanf
+- No modificar el contador del for dentro del cuerpo (i++ en vez de e++ = bugs sutiles)
 - Terminal: pwd, cd, ls, ./, mv ; git básico (init, add, commit, push)
 
 ## Ejercicios resueltos
@@ -59,6 +63,9 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
 - etapa3-funciones/tablamultiplicar.c ✔ (tabla con función, prototipo, void, scanf interno)
 - etapa3-funciones/cajerofuncion.c ✔ RETO ETAPA 3 (cajero reconstruido con funciones:
   pedirPin, mostrarMenu, consultarSaldo, depositar, retirar — todas con prototipo)
+- etapa3-funciones/notas.c ✔ (arreglo de5 notas, promedio con float cast, cada nota con posición)
+- etapa4-arreglos/maxmin.c EN PROCESO (buscar mayor y menor en arreglo; intento en notas.c
+  causó acumulación de bugs; estrategia: crear archivo limpio, integrar después)
 
 ## Retos prácticos superados
 - RETO ETAPA 1 "desglosador de segundos" ✔
@@ -75,8 +82,13 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
 - Creencia resuelta hoy: "solo imprime lo que está en main" / "printf vive en main" → venía de
   que sus funciones solo hacían return; duplicar.c refutó la teoría con datos
 - Resumen invertido de void corregido con drill de "tres cables" — repasar al inicio de próxima sesión
+- Frustración con debugging acumulado: cuando un código tiene múltiples bugs, es mejor reiniciar
+  limpio que intentar corregir todo a la vez — lección de ingeniería, no de C
+- Tendencia a modificar código funcional sin checkpoint: guardar versión antes de agregar complejidad
 
 ## Pendientes menores
+- Crear etapa4-arreglos/maxmin.c limpio (mayor y menor en arreglo de5 notas)
+- Integrar max/min de vuelta en notas.c (si student quiere complementar ejercicio original)
 - Pulir cajerofuncion.c: \n en "Monto invalido" (retirar), typo CAEJERO, prototipo pedirPin vs definición
 - Pulir cajero.c Etapa 2 (lista en Ejercicios resueltos)
 - Espacio en "Multiplicacion%d" (calculadora.c)
@@ -84,12 +96,11 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
 - Hábito nuevo sugerido: compilar a output/ para no versionar binarios
 - Ejercicio 5 pendiente: pedirNumero(void) y mostrarResultado(char,...) — instrucciones entregadas
 
-## Plan próxima sesión (ETAPA 4)
-1. Repaso de funciones: tres cables (parámetros/return/pantalla), void vs return, composición
-2. Decisiones de diseño: cuándo usar void vs int, cuándo parametrizar vs scanf interno
-3. Funciones que llaman a funciones (ya lo hizo con suma/resta en cajero)
-4. Tema nuevo según ritmo: arreglos, cadenas de caracteres, o matemáticas (math.h)
-5. Mini-reto ETAPA 4
+## Plan próxima sesión (ETAPA 4 — continuación)
+1. Crear maxmin.c limpio con lógica de mayor y menor
+2. Integrar max/min de vuelta en notas.c (paso a paso: cambio → compilar → probar)
+3. Arrays como parámetros de funciones (pasar arreglo + tamaño)
+4. Mini-reto ETAPA 4 (procesamiento de datos con arreglos)
 
 ## Ritual de cierre de sesión
 - Actualizar PROGRESS.md → git add -A → commit → push (pendiente: conectar GitHub)
