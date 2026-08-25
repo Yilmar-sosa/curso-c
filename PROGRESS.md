@@ -2,13 +2,14 @@
 
 Estudiante: Yilmar
 Carpeta del curso: C:\Users\USUARIO\Documents\c
-Última sesión: 2026-08-24 (cierre de Etapa 2 + inicio Etapa 3)
+Última sesión: 2026-08-25 (cierre Etapa 3: reto cajero con funciones aprobado)
 Repositorio: https://github.com/Yilmar-sosa/curso-c
 
 ## Estado de etapas
 - ETAPA 1 COMPLETADA ✔ (reto: desglosador de segundos)
 - ETAPA 2 COMPLETADA ✔ (reto: cajero automático — lógica aprobada; pulido de detalles quedó de tarea)
-- ACTUAL: ETAPA 3 — Funciones
+- ETAPA 3 COMPLETADA ✔ (reto: cajero con funciones aprobado; pulido menor pendiente)
+- ACTUAL: ETAPA 4
 
 ## Conceptos completados
 - Estructura de programa C, main, printf/scanf, return 0
@@ -55,10 +56,14 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
 - etapa3-funciones/duplicar.c ✔ (parámetros como fotocopias: dentro 10, fuera 5)
 - EJERCICIO 5 EN PAUSA (modernizar funciones.c con pedirNumero y mostrarResultado):
   instrucciones de 4 pasos ya entregadas; el archivo aún no se ha modificado
+- etapa3-funciones/tablamultiplicar.c ✔ (tabla con función, prototipo, void, scanf interno)
+- etapa3-funciones/cajerofuncion.c ✔ RETO ETAPA 3 (cajero reconstruido con funciones:
+  pedirPin, mostrarMenu, consultarSaldo, depositar, retirar — todas con prototipo)
 
 ## Retos prácticos superados
 - RETO ETAPA 1 "desglosador de segundos" ✔
 - RETO ETAPA 2 "cajero automático" ✔ (lógica aprobada; pulido pendiente)
+- RETO ETAPA 3 "cajero con funciones" ✔ (arquitectura de funciones aprobada; pulido menor pendiente)
 
 ## Temas débiles detectados
 - Predicción antes de ejecutar: mejora pero tiende a saltarla
@@ -72,19 +77,19 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
 - Resumen invertido de void corregido con drill de "tres cables" — repasar al inicio de próxima sesión
 
 ## Pendientes menores
-- TERMINAR EJERCICIO 5 (pasos 1-4 ya redactados; meta visible: 10 + 4 = 14 ...)
-- Pulir cajero.c (lista en Ejercicios resueltos)
+- Pulir cajerofuncion.c: \n en "Monto invalido" (retirar), typo CAEJERO, prototipo pedirPin vs definición
+- Pulir cajero.c Etapa 2 (lista en Ejercicios resueltos)
 - Espacio en "Multiplicacion%d" (calculadora.c)
 - Organizar archivos sueltos en carpetas
 - Hábito nuevo sugerido: compilar a output/ para no versionar binarios
+- Ejercicio 5 pendiente: pedirNumero(void) y mostrarResultado(char,...) — instrucciones entregadas
 
-## Plan próxima sesión (Etapa 3 — Funciones, continuación)
-1. Repaso exprés: tres cables (parámetros/return/pantalla) + menú-salón-cocina
-2. Terminar Ejercicio 5: pedirNumero(void) y mostrarResultado(char,...) — receta completa ya dada
-3. Narración pedida: "el viaje del número 4" del teclado a la pantalla
-4. RETO ETAPA 3: reconstruir el cajero con arquitectura de funciones
-   (mínimo: pedirPin, mostrarMenu, depositar, retirar, consultarSaldo — todas con prototipo)
-5. Después: char en profundidad o arreglos, según ritmo
+## Plan próxima sesión (ETAPA 4)
+1. Repaso de funciones: tres cables (parámetros/return/pantalla), void vs return, composición
+2. Decisiones de diseño: cuándo usar void vs int, cuándo parametrizar vs scanf interno
+3. Funciones que llaman a funciones (ya lo hizo con suma/resta en cajero)
+4. Tema nuevo según ritmo: arreglos, cadenas de caracteres, o matemáticas (math.h)
+5. Mini-reto ETAPA 4
 
 ## Ritual de cierre de sesión
-- Actualizar PROGRESS.md → git add -A → commit → push ✔ (hecho 2026-08-24)
+- Actualizar PROGRESS.md → git add -A → commit → push (pendiente: conectar GitHub)

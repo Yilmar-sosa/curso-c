@@ -13,14 +13,12 @@
      int suma(int a, int b);
      int resta(int a, int b);
      int multiplicacion(int a, int b);
-     
+     int pedirNumero(void);
+     void mostrarResultado(Char simbolo, int a, int b, int resultado);
      
      int main(){
-        int num1, num2;
-        printf("Escribe tu primer numero\n");
-        scanf("%d", &num1);
-        printf("Escribe tu segundo numero\n");
-        scanf("%d", &num2);
+        int num1 = pedirNumero();
+        int num2 = pedirNumero();
         printf("%d + %d = %d\n", num1, num2, suma(num1, num2));
         printf("%d - %d = %d\n", num1, num2, resta(num1, num2));
         printf("%d * %d = %d\n", num1, num2, multiplicacion(num1, num2));
@@ -38,4 +36,11 @@
 
 
 
-        
+        int pedirNumero(void){ 
+        printf("Escribe tu primer numero\n");
+        scanf("%d", &num1);
+        return
+        }
+
+        printf("Escribe tu segundo numero\n");
+        scanf("%d", &num2);

@@ -4,12 +4,16 @@
 *.out
 
 # Binarios compilados en Linux (sin extensión)
-calculadora
-cafeteria
-cajero
-pin
-funciones
-duplicar
+**/calculadora
+**/cafeteria
+**/cajero
+**/pin
+**/funciones
+**/duplicar
+**/tablamultiplicar
+**/cajerofuncion
+**/cajero2
+tabla
 
 # Carpeta de binarios del estudiante
 output/
