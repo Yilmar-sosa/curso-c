@@ -64,13 +64,28 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
 - etapa3-funciones/cajerofuncion.c ✔ RETO ETAPA 3 (cajero reconstruido con funciones:
   pedirPin, mostrarMenu, consultarSaldo, depositar, retirar — todas con prototipo)
 - etapa3-funciones/notas.c ✔ (arreglo de5 notas, promedio con float cast, cada nota con posición)
-- etapa4-arreglos/maxmin.c EN PROCESO (buscar mayor y menor en arreglo; intento en notas.c
-  causó acumulación de bugs; estrategia: crear archivo limpio, integrar después)
+- etapa4-arreglos/notas.c ✔ (arreglo + promedio + mayor + menor, integrado paso a paso)
+- etapa4-arreglos/maxmin.c ✔ (mayor y menor en arreglo)
+- etapa5-strings/nombre.c ✔ (fgets con espacios, toupper, strcspn)
+- etapa6-punteros/intercambiar.c ✔ (punteros modifican el original, no copias)
+- etapa7-structs/estudiante.c ✔ (struct Estudiante: nombre, edad, promedio)
+- etapa7-structs/reporteprueba.c ✔ (array de structs + puntero aritmético (est+i)->campo,
+  buffer cleanup, fgets con espacios, mostrarEstudiantes)
+- etapa8-archivos/guardar.c ✔ (fopen w/r, fwrite/fprintf, fgets, leer lo guardado)
+- etapa9-memoria/dinamico.c EN PROCESO (malloc + free; falta calcular el máximo)
 
 ## Retos prácticos superados
 - RETO ETAPA 1 "desglosador de segundos" ✔
 - RETO ETAPA 2 "cajero automático" ✔ (lógica aprobada; pulido pendiente)
 - RETO ETAPA 3 "cajero con funciones" ✔ (arquitectura de funciones aprobada; pulido menor pendiente)
+
+## Progreso por etapas (2026-08-27)
+- ETAPA 1 Variables ✔ | ETAPA 2 Condicionales ✔ | ETAPA 3 Funciones ✔
+- ETAPA 4 Arrays ✔ (incluye bubble sort) | ETAPA 5 Strings ✔
+- ETAPA 6 Punteros ✔ (intercambiar) | ETAPA 7 Structs ✔ (array + punteros)
+- ETAPA 8 Archivos ✔ (guardar/leer) | ETAPA 9 Memoria dinámica EN CURSO (malloc, falta máximo)
+- Quedan: terminar Etapa 9, Etapa 10 proyecto integrador (deadline 31-ago)
+- Estructura de carpetas organizada en etapa1..etapa9, ejercicios de Etapa1-2 movidos a su carpeta
 
 ## Temas débiles detectados
 - Predicción antes de ejecutar: mejora pero tiende a saltarla

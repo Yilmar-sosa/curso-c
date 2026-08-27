@@ -15,7 +15,18 @@
 **/cajero2
 **/notas
 **/maxmin
+**/Burbuja
+**/factorizarNotas
+**/punteros
+**/estudiante
+**/guardar
+**/leer
+**/dinamico
+**/the
 tabla
+
+# Datos generados en tiempo de ejecución
+**/datos.txt
 
 # Carpeta de binarios del estudiante
 output/
