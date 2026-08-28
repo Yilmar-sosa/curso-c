@@ -34,3 +34,11 @@ output/
 # Archivos del sistema
 Thumbs.db
 desktop.ini
+# Binarios Etapa10 / homework
+**/Agenda
+**/Mini Agenda
+**/WORK PRIMERA
+**/g
+**/reporte de estudiantes
+**/reporteprueba
+**/free

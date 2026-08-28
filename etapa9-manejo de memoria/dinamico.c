@@ -26,16 +26,24 @@
 
         printf("Cuantos valores quiere ingresar\n");
         scanf("%d", &cantidad);
-        int* valor = malloc (cantidad * sizeof(int));
+        int* valor = malloc (cantidad * sizeof(int)); //operacion que calcula la memoria que se pedira en base a los datos entregados por pantalla;
         printf("Sus valores a agregar son: %d\n\nA continuación empiece a ingresarlos\n", cantidad);
         
         for(int i = 0; i < cantidad; i++){
-        scanf("%d", &valor[i]);
+        scanf("%d", &valor[i]);//CICLO QUE PERMITE AGREGAR VALORES AL ARREGLO
         
         }
         for(int i = 0; i < cantidad; i++){
-        printf("Numero %d: %d\n", i+1, valor[i]);
-        }
+        printf("Numero %d: %d\n", i+1, valor[i]);//CICLO QUE MUESTRA POR PANTALLA 
+        }//CADA UNO DE LOS ARREGLOS
+        //ENCONTRA LE NUMERO MAYOR 
+        int max = valor[0]; //se crea una variable que guardara el puntero de valor posicion 0
+        for(int i = 1; i < cantidad; i++){
+            if(valor[i] > max  ){//si la posicion i(1 + 1 e cada vuelta) es mayor que la posicion 0
+               max = valor[i];   //maximo reescribira su dato como  la posicion (1 + 1 en cada vuelta)
+            }     //como resultado max encontrara el numero mayor y por sus reescrituras guardara ese unico numero.
+         }
+         printf("El numero mayor de los que proporciono  es: %d\n", max);
         free(valor);
         return 0;
         
