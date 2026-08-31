@@ -130,3 +130,36 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
 - DEBILIDAD DECISIVA detectada: dice "listo" HABITUALMENTE sin haber aplicado el cambio al disco (×3 en esta sesión). Regla acordada: editar → guardar → MIRAR la línea con los ojos → recién compilar; confirmar línea modificada antes de afirmar
 - Pendiente: EXAMEN DE PRUEBA de la institución (Student lo rinde hoy); al regreso, continuar Etapa 10 (Agenda integrador) — deadline 31-ago
 - Ritual de cierre ejecutado: archivos organizados (renombre a punto2_lista.c, borrado basura), PROGRESS actualizado, commit+push
+
+## SESIÓN 2026-08-31 — EXAMENES DE PRUEBA (etapa1 homework + repaso)
+- EXAMEN PRUEBA 1 (examen-practica/examenpueba1.c): "Longest Word" estilo coderbyte.
+  Busca la palabra MÁS LARGA de una frase ignorando puntuación. 2 casos de ejemplo CORRECTOS.
+  - Acierto clave: `if(strlen(actual) > strlen(larga))` con `>` guarda la PRIMERA en empate
+    (love vs dogs -> love, correcto).
+  - Mejora pendiente: `isalnum()` acepta dígitos; si el enunciado es "solo letras" usar
+    `isalpha()` (los `&`/`!` ya se ignoran con ambos).
+  - Bug anterior corregido: main llamaba LongestWord DOS veces (prueba manual + la del
+    sistema) y eso concatenaba salidas tipo "encantanlove". Se quita la llamada manual.
+- EXAMEN PRUEBA 2 (examen-practica/inventario_a_corregir.c): Sistema de Inventario (Producto)
+  con malloc/realloc y paso por referencia. Guardado TAL CUAL para corregir juntos.
+- REVISIÓN académica del examen 2 (8 errores encontrados, quedan pendientes de corregir):
+  1. Regla de acceso por firma (CRÍTICA, se vio hoy): una estrella `Producto *` -> `inventario[i]`;
+     dos estrellas `Producto **` -> `(*inventario)[i]`. Se usó `(**)[i]` en funciones con una estrella.
+  2. `*` suelto en línea propia (sintaxis inválida).
+  3. Comparar `*capacidad == NULL` incorrecto (capacidad es int; NULL es para punteros;
+     debe ser `*inventario == NULL`).
+  4. Falta `;` en `precio = precio`; varias funciones sin llaves de cierre balanceadas.
+  5. Bug lógico buscarProductoPorId: `else return -1` corta en la primer posición sin revisar
+     el resto -> debe revisar todo el arreglo y retornar -1 DESPUÉS del for.
+  6. calcularValorTotal: `.valor` no existe (es `.cantidad`); `[i+1]` mal -> debe ser
+     `[i].cantidad * [i].precio`.
+  7. imprimirInventario: usa `cantidad` (no existe) en vez de `cantidadProductos`;
+     `inventario.cantidad` -> `inventario[i].cantidad`.
+  8. liberarInventario: `free(**inventario)` -> `free(*inventario)`; typo "invertario";
+     falta `;`.
+- CONCEPTOS REFORZADOS hoy: puntero no es arreglo hasta que se le asigna memoria con malloc;
+  `Producto *temp` guarda lo que devuelve realloc (apunta al primer Producto del bloque, los
+  demás son contiguos); el `temp` intermedio protege el puntero original si realloc falla;
+  `(*inventario)[i]` entre paréntesis porque `[]` tiene más precedencia que `*`.
+- Pendiente: corregir inventario_a_corregir.c función por función; continuar Etapa 10 (Agenda
+  integrador módulo2 archivos) — deadline 31-ago.
