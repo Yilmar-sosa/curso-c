@@ -2,7 +2,7 @@
 
 Estudiante: Yilmar
 Carpeta del curso: C:\Users\USUARIO\Documents\c
-Última sesión: 2026-08-25 (Etapa 3 cerrada + Etapa 4 iniciada: arreglos)
+Última sesión: 2026-08-29 (Taller institucional "Etapa 1 - Homework" completado: Puntos 1 y 2)
 Repositorio: https://github.com/Yilmar-sosa/curso-c
 
 ## Estado de etapas
@@ -119,3 +119,14 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
 
 ## Ritual de cierre de sesión
 - Actualizar PROGRESS.md → git add -A → commit → push (pendiente: conectar GitHub)
+
+## SESIÓN 2026-08-29 — TALLER INSTITUCIONAL "Etapa 1 - Homework" COMPLETADO
+- PUNTO 1 (WORK PRIMERA.C) — swap/reverseArray/printArray + malloc/realloc/free: validadas por falsos positivos (memoria+compilador) y output EXACTO del enunciado
+- PUNTO 2 (punto2_lista.c) — lista sobre arreglo, 7 funciones completas y verificadas, salida EXACTA:
+  `10 -> 20 -> 30 / 5 -> 10 -> 20 -> 30 / 5 -> 10 -> 20 -> 25 -> 30 / 5 -> 20 -> 25 -> 30 / Length: 4`
+- Guardias implementadas: lista llena (inserts), lista vacía + índice inválido (delete), cada una con su mensaje propio
+- Conceptos conquistados hoy: regla del paso de parámetros (puntero si modifica / valor si lee / arreglo SIEMPRE por puntero); el arreglo decae a puntero; `listSize` como "fuente de verdad"; deslizamiento derecha→izquierda en inserts (y espejo en delete); off-by-one del delete (`i < *listSize - 1`); patrón separador "no primero" (`i > 0`); distinción mensaje preciso vs engañoso (causa real, no síntoma)
+- Bugs cazados hoy: `*listSize++` → `(*listSize)++`; `return 0` en función `void`; `;` fantasma tras el `for`; condición imposible `i < *listSize` en print (else nunca corría); off-by-one en delete; frontera `>` vs `>=` en guardia de índice
+- DEBILIDAD DECISIVA detectada: dice "listo" HABITUALMENTE sin haber aplicado el cambio al disco (×3 en esta sesión). Regla acordada: editar → guardar → MIRAR la línea con los ojos → recién compilar; confirmar línea modificada antes de afirmar
+- Pendiente: EXAMEN DE PRUEBA de la institución (Student lo rinde hoy); al regreso, continuar Etapa 10 (Agenda integrador) — deadline 31-ago
+- Ritual de cierre ejecutado: archivos organizados (renombre a punto2_lista.c, borrado basura), PROGRESS actualizado, commit+push
