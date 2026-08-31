@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuleta de C para el Examen — Yilmar</title>
+<style>
+  :root {
+    --tinta: #1a1a2e;
+    --acento: #0f3460;
+    --trampa: #b00020;
+    --fondo: #ffffff;
+    --plomo: #f4f4f8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--tinta);
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 24px 28px 60px;
+    line-height: 1.45;
+    font-size: 15px;
+  }
+  h1 {
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--acento);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .subtitulo { color: #555; font-size: 13px; margin: 0 0 22px; }
+  h2 {
+    font-size: 18px;
+    margin: 30px 0 10px;
+    padding: 6px 10px;
+    background: var(--acento);
+    color: #fff;
+    border-radius: 6px;
+  }
+  h3 { font-size: 15px; margin: 18px 0 6px; color: var(--acento); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 14px;
+    font-size: 13.5px;
+  }
+  th, td {
+    border: 1px solid #ccd;
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--plomo); }
+  code {
+    font-family: Consolas, "Courier New", monospace;
+    background: #eef;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+  pre {
+    font-family: Consolas, "Courier New", monospace;
+    background: #f7f7fb;
+    border-left: 4px solid var(--acento);
+    padding: 8px 12px;
+    overflow-x: auto;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+  .trampa {
+    background: #fff1f2;
+    border-left: 5px solid var(--trampa);
+    padding: 8px 12px;
+    margin: 10px 0;
+    font-size: 13.5px;
+  }
+  .clave {
+    background: #f1fdf1;
+    border-left: 5px solid #1b6e2e;
+    padding: 8px 12px;
+    margin: 10px 0;
+    font-size: 13.5px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .caja {
+    background: var(--plomo);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13.5px;
+    border: 1px solid #dde;
+  }
+  .boton {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 8px 16px;
+    background: var(--acento);
+    color: #fff;
+    border: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  @media print {
+    body { max-width: 100%; padding: 10px; font-size: 11.5px; }
+    .boton { display: none; }
+    h2 { break-after: avoid; }
+    table, .trampa, .clave, .caja, pre { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<button class="boton" onclick="window.print()">Imprimir / guardar como PDF</button>
+<h1>Chuleta de C para el Examen</h1>
+<p class="subtitulo">Notas conceptuales para pasar a mano · Yilmar · AvanzaTec · Temas: Etapas 1 a 9 + taller</p>
+
+<h2>0. Cómo partir cualquier ejercicio (el método)</h2>
+<ol>
+  <li><strong>Lee el enunciado 2 veces.</strong> La segunda, subraya: qué funciones pide, qué salida exacta quiere, qué casos especiales menciona ("si la lista está llena…").</li>
+  <li><strong>Identifica la fuente de verdad:</strong> el contador que dice cuántos elementos son reales (ej. <code>listSize</code>, <code>n</code>). El arreglo guarda datos; el contador manda.</li>
+  <li><strong>Escribe primero la FIRMA de cada función</strong> (¿puntero o valor? — sección 4). El cuerpo después.</li>
+  <li><strong>Orden de ejecución:</strong> pedir → calcular → imprimir. Así se arman casi todos los programas.</li>
+  <li><strong>Compila con <code>gcc -Wall -Wextra -g</code></strong> y prueba los casos borde (lleno, vacío, índice inválido), no solo el camino feliz.</li>
+  <li><strong>Nunca digas "listo" sin verificar</strong>: editar → guardar → mirar la línea con los ojos → compilar.</li>
+</ol>
+
+<h2>1. Fundamentos exprés</h2>
+<h3>Estructura mínima</h3>
+<pre>#include &lt;stdio.h&gt;
+int main() {
+    // código
+    return 0;   // 0 = todo salió bien (al main)
+}</pre>
+<h3>Directivas y constantes (#define y amigos)</h3>
+<pre>#include &lt;stdio.h&gt;    // trae prototipos ajenos de la librería
+#include &lt;string.h&gt;   // strings
+#include &lt;stdlib.h&gt;   // malloc, free, abs...
+#include &lt;math.h&gt;     // sqrt, pow... (compilar con -lm)
+
+#define MAX_SIZE 100   // constante: se sustituye en TODO el archivo antes de compilar
+#define PI 3.1416
+
+int main() {
+    int arr[MAX_SIZE];   // el arreglo con el tamaño #define
+    return 0;
+}</pre>
+<table>
+  <tr><th>Herramienta</th><th>Qué es</th><th>Detalle</th></tr>
+  <tr><td><code>#define NOMBRE valor</code></td><td>constante de preprocesador</td><td>convención en MAYÚSCULAS; se reemplaza como texto antes de compilar</td></tr>
+  <tr><td><code>const int x = 5;</code></td><td>variable que no puede cambiar</td><td>es variable real con tipo; <code>#define</code> es texto bruto</td></tr>
+  <tr><td><code>typedef ... Tipo;</code></td><td>apodo para un tipo (ej. <code>typedef struct {...} Producto;</code>)</td><td>crea nombres propios: <code>Producto p;</code></td></tr>
+</table>
+<div class="trampa"><strong>Gotita clásica:</strong> <code>#define</code> <strong>NO lleva punto y coma</strong>. Un <code>;</code> de más se convierte en parte del código (y el arreglo "hace cosas raras").</div>
+<h3>Tipos y formatos</h3>
+<table>
+  <tr><th>Tipo</th><th>Guarda</th><th>Imprimir</th><th>Leer</th></tr>
+  <tr><td><code>int</code></td><td>enteros</td><td><code>%d</code> · <code>%5d</code> (5 espacios)</td><td><code>%d</code> + <code>&amp;</code></td></tr>
+  <tr><td><code>float</code> / <code>double</code></td><td>decimales</td><td><code>%f</code> · <code>%.2f</code> (2 dec)</td><td><code>%f</code> (double: <code>%lf</code>)</td></tr>
+  <tr><td><code>char</code></td><td>un carácter</td><td><code>%c</code></td><td><code>%c</code> + <code>&amp;</code></td></tr>
+  <tr><td><code>char texto[50]</code></td><td>cadena</td><td><code>%s</code></td><td><code>%s</code> SIN <code>&amp;</code></td></tr>
+</table>
+<div class="clave">
+  <strong>División entera vs real:</strong> con dos <code>int</code>, la división <em>trunca</em>: <code>7/2 == 3</code>.
+  Para decimal real necesitas al menos un <code>float</code>: <code>(float)7/2 == 3.5</code>.
+  El <strong>cast</strong> <code>(float)x</code> "convierte" x a float solo en esa operación. Ej. clásico: promedio de notas → <code>(float)suma/n</code>.
+</div>
+<div class="trampa"><strong>Variable sin inicializar = basura.</strong> Declarar <code>int total;</code> y usarla sin darle valor da un número loco. Si acumulas: <code>int suma = 0;</code>.</div>
+<p><strong>Operadores aritméticos:</strong> <code>+ - * / %</code> (resto de división entera: <code>17 % 5 == 2</code>). Potencia NO existe: usa multiplicación o bucle.</p>
+
+<h2>2. Condicionales y ciclos</h2>
+<h3>Decisiones</h3>
+<table>
+  <tr><th>Herramienta</th><th>Cuándo</th><th>Detalle</th></tr>
+  <tr><td><code>if / else if / else</code></td><td>siempre que haya una condición</td><td>se evalúa en orden; el primero verdadero gana</td></tr>
+  <tr><td><strong>Guard clause</strong></td><td>validar entrada al inicio</td><td><pre>if (condicion_mala) { printf("..."); return; }</pre></td></tr>
+  <tr><td><code>switch (x)</code></td><td>comparar un valor con varios exactos</td><td><code>case 1: ... break;</code> — sin <code>break</code>, cae al siguiente (<em>fall-through</em>)</td></tr>
+</table>
+<h3>switch / case (el menú)</h3>
+<pre>switch (opcion) {          // opcion: int o char
+    case 1: ... break;     // el break es EL freno
+    case 2: ... break;     // sin break corren los de abajo (fall-through)
+    case 'a': ... break;   // también con caracteres
+    default: ...           // el "else": opción que no matcheó
+}</pre>
+<table>
+  <tr><th>Detalle</th><th>Nota</th></tr>
+  <tr><td>Uso típico</td><td>menús de opciones (1, 2, 3…), clasificar un valor por casos exactos</td></tr>
+  <tr><td>Los <code>case</code> NO son condiciones</td><td>cómo saberlo: ¿comparo por rango o con <code>&lt;</code>? → <code>if</code>. ¿Valores exactos? → <code>switch</code></td></tr>
+  <tr><td>Dentro de un <code>do-while</code></td><td>menú que vuelve a pedir hasta que eliges salir → <code>while (opcion != 0);</code></td></tr>
+</table>
+<h3>Operadores lógicos</h3>
+<table>
+  <tr><th>Op</th><th>Nombre</th><th>Verdad cuando…</th></tr>
+  <tr><td><code>&amp;&amp;</code></td><td>Y</td><td>ambos son ciertos</td></tr>
+  <tr><td><code>||</code></td><td>O</td><td>al menos uno es cierto</td></tr>
+  <tr><td><code>!</code></td><td>NO</td><td>lo contrario; <code>!(a &amp;&amp; b)</code> invierte todo</td></tr>
+</table>
+<h3>Bucles: ¿cuál uso?</h3>
+<table>
+  <tr><th>Bucle</th><th>Cuándo</th><th>Forma</th></tr>
+  <tr><td><code>for</code></td><td>sabes cuántas vueltas (recorrer arreglo, contar)</td><td><code>for (i=0; i&lt;n; i++)</code></td></tr>
+  <tr><td><code>while</code></td><td>no sabes cuántas; repite MIENTRAS la condición sea cierta (evalúa antes)</td><td><code>while (cond) {...}</code></td></tr>
+  <tr><td><code>do-while</code></td><td>debe ejecutarse al menos UNA vez (menús: pin, opciones)</td><td><code>do {...} while (cond); // ojo el ;</code></td></tr>
+</table>
+<div class="trampa"><strong>No modifiques el contador del <code>for</code> dentro del cuerpo.</strong> <code>for (i=0;i&lt;n;i++)</code> y dentro escribes <code>i++</code> = saltos raros. El bucle avanza solo.</div>
+<p><strong><code>continue</code></strong> salta a la siguiente vuelta (validación dentro del bucle). <strong><code>break</code></strong> frena todo el bucle (reservado para emergencias). <strong>Ámbito:</strong> lo que se declara dentro de <code>{}</code> vive y muere ahí — si necesitas el contador al final, decláralo fuera.</p>
+
+<h2>3. Funciones</h2>
+<pre>int suma(int a, int b) {   // tipo retorno · nombre · (parámetros)
+    return a + b;          // el return manda el resultado
+}</pre>
+<table>
+  <tr><th>Pieza</th><th>Cómo</th></tr>
+  <tr><td><strong>Prototipo</strong></td><td><code>int suma(int a, int b);</code> arriba (o en <code>.h</code>). El main y las funciones lo ven → el compilador verifica las llamadas.</td></tr>
+  <tr><td><strong>Definición</strong></td><td>el cuerpo real, abajo</td></tr>
+  <tr><td><strong><code>void</code></strong></td><td>delante del nombre = no devuelve nada (<code>return;</code>); entre paréntesis = sin parámetros: <code>void f(void)</code></td></tr>
+  <tr><td><strong>Paso por valor</strong></td><td>los parámetros son <strong>fotocopias</strong>: duplicar dentro NO cambia el original (intercambiar lo refutó)</td></tr>
+  <tr><td><strong>Composición</strong></td><td>funciones que llaman funciones: <code>suma(10, resta(7, 2))</code></td></tr>
+</table>
+<div class="clave"><strong>Tres cables separados:</strong> parámetros (entrada), <code>return</code> (salida), printf (pantalla). Una función puede tener cualquiera de los tres sin que se mezclen: <code>void</code> no silencia el printf.</div>
+
+<h2>4. Regla de oro del paso de parámetros</h2>
+<div class="grid">
+  <div class="caja"><strong>Solo LEE un dato simple</strong> (int, float, char) → por <strong>valor</strong>: <code>void f(int x)</code></div>
+  <div class="caja"><strong>MODIFICA un dato simple</strong> → por <strong>puntero</strong>: <code>void f(int *x)</code> y llama <code>f(&amp;x)</code></div>
+  <div class="caja"><strong>Arreglo o string</strong> → SIEMPRE llega como puntero: <code>int arr[]</code> ≡ <code>int *arr</code>. Se modifica directo, sin <code>&amp;</code>.</div>
+  <div class="caja"><strong>Struct grande o que se modifica</strong> → por puntero: <code>void f(Producto *p)</code> → <code>p-&gt;campo</code></div>
+</div>
+<div class="clave"><strong>Recuerda:</strong> si el main debe VER el cambio, la función toca la caja original → puntero. "El puntero es el puente entre el salón y la nota".</div>
+<table>
+  <tr><th>Símbolo</th><th>Significado</th><th>Ejemplo</th></tr>
+  <tr><td><code>&amp;x</code></td><td>la dirección (la "nota" de x)</td><td><code>f(&amp;x)</code> · <code>scanf("%d", &amp;x);</code></td></tr>
+  <tr><td><code>*p</code></td><td>el valor al que apunta p (leer o escribir)</td><td><code>int v = *p;</code> · <code>*p = 5;</code></td></tr>
+  <tr><td><code>arr[i]</code></td><td>equivale a <code>*(arr + i)</code></td><td><code>arr[3]</code></td></tr>
+  <tr><td><code>&amp;arr[i]</code></td><td>dirección del elemento i</td><td><code>scanf("%d", &amp;arr[i]);</code></td></tr>
+</table>
+
+<h2>5. Punteros y aritmética de punteros</h2>
+<ul>
+  <li><strong>Punteros modifican el original, no copias:</strong> <code>intercambiar(&amp;a, &amp;b)</code> funciona; <code>intercambiar(a, b)</code> no (fotocopias).</li>
+  <li>Aritmética: <code>ptr + 1</code> avanza UN elemento (no un byte). Por eso <code>(est + i)-&gt;campo</code> recorre el arreglo de structs, igual que <code>est[i].campo</code>.</li>
+  <li>El puntero nuevo de <code>realloc</code> puede ser distinto: siempre guarda el valor devuelto.</li>
+</ul>
+<div class="trampa"><strong><code>*ptr++</code> vs <code>(*ptr)++</code>:</strong> el primero avanza el puntero; el segundo suma 1 al valor apuntado. (El famoso <code>*listSize++</code> era <code>(*listSize)++</code>).</div>
+
+<h2>6. Memoria dinámica (malloc / realloc / free)</h2>
+<ul>
+  <li><code>malloc(cant * sizeof(Tipo))</code> — pide memoria cruda; <code>calloc(n, tam)</code> igual pero en cero.</li>
+  <li><code>sizeof</code> SIEMPRE con el tipo: <code>malloc(3 * sizeof(Producto))</code>. Nunca sobre un puntero.</li>
+  <li>Revisar que no devuelva <code>NULL</code> (falló la memoria) y manejar.</li>
+  <li><code>realloc(ptr, nuevo_tam)</code> — crece/encoge y <strong>puede MOVER el bloque</strong>.</li>
+  <li>Todo <code>malloc</code> → su <code>free</code> al final. Arreglo de punteros: free cada elemento + free externo.</li>
+</ul>
+<pre>if (n == capacidad) {                     // arreglo lleno
+    Producto *aux = realloc(inv, 2 * capacidad * sizeof(Producto));
+    if (aux == NULL) { manejar error; return; }
+    inv = aux;                             // el puntero PUEDE haber cambiado
+    capacidad *= 2;
+}</pre>
+<div class="clave"><strong>¿Puntero doble (<code>Producto **inv</code>)?</strong> Solo si la función debe CAMBIAR a dónde apunta el puntero del main (un realloc movió el bloque). Si solo modificas elementos, el puntero simple alcanza.</div>
+
+<h2>7. struct</h2>
+<pre>typedef struct {
+    int id;
+    char nombre[50];
+    int cantidad;
+    float precio;
+} Producto;   // ahora existe el tipo "Producto"</pre>
+<table>
+  <tr><th>Acceso</th><th>Cuándo</th><th>Ejemplo</th></tr>
+  <tr><td><code>x.campo</code></td><td>x es variable directa</td><td><code>Producto p; p.id = 1;</code></td></tr>
+  <tr><td><code>p-&gt;campo</code></td><td>p es puntero a struct</td><td>equivale a <code>(*p).campo</code> (paréntesis obligatorio)</td></tr>
+  <tr><td><code>inv[i].precio</code></td><td>arreglo de structs</td><td><code>total += inv[i].precio;</code></td></tr>
+</table>
+
+<h2>8. Arreglos y ordenamiento</h2>
+<ul>
+  <li><strong>Un arreglo de N tiene posiciones 0 a N-1</strong> (NO N). Salirte = comportamiento indefinido.</li>
+  <li>Recorrido con <code>for</code>: <code>for(i=0; i&lt;n; i++)</code>.</li>
+  <li>Máximo/mínimo: arranca con <code>max = arr[0]</code> después de llenar el arreglo, y recorre desde el índice 1.</li>
+  <li>Conteo/acumulador: <code>n++</code> al agregar (el contador es la fuente de verdad).</li>
+  <li>Intercambio de dos posiciones: variable temporal (swap).</li>
+</ul>
+<pre>// Bubble sort (Etapa 4): burbujas que trepan los grandes al final
+for (i = 0; i &lt; n-1; i++)            // pasadas
+    for (j = 0; j &lt; n-1-i; j++)       // comparaciones (menos cada pasada)
+        if (arr[j] &gt; arr[j+1])        // si el de la izquierda es mayor → intercambiar
+            { int tem = arr[j]; arr[j] = arr[j+1]; arr[j+1] = tem; }</pre>
+
+<h2>9. Strings (family string.h y ctype.h)</h2>
+<p>Toda cadena termina en <code>'\0'</code> (recorrer <code>for(i=0; s[i]!='\0'; i++)</code>). En funciones, un string <strong>es</strong> un puntero a su primer carácter.</p>
+<table>
+  <tr><th>Función</th><th>Qué hace</th><th>Cuándo la uso</th></tr>
+  <tr><td><code>strlen(s)</code></td><td>largo (sin el '<code>\0</code>')</td><td>necesito el tamaño</td></tr>
+  <tr><td><code>strcpy(d,s)</code></td><td>copia s hacia d</td><td>asignar texto (los arreglos NO se asignan con <code>=</code>)</td></tr>
+  <tr><td><code>strcat(d,s)</code></td><td>pega s al final de d</td><td>concatenar</td></tr>
+  <tr><td><code>strcmp(a,b)</code></td><td>0 si son iguales</td><td>comparar textos</td></tr>
+  <tr><td><code>fgets(buf, tam, stdin)</code></td><td>lee línea CON espacios</td><td>nombres y frases (deja el <code>\n</code>)</td></tr>
+  <tr><td><code>strcspn(s, "\n")</code></td><td>busca el primero que matchee</td><td>quitar el salto: <code>s[strcspn(s,"\n")] = 0;</code></td></tr>
+  <tr><td><code>toupper(c)</code> / <code>tolower(c)</code></td><td>convierte mayúscula/minúscula</td><td>normalizar texto</td></tr>
+  <tr><td><code>isalpha(c)</code></td><td>1 si es letra</td><td rowspan="3">clasificar carácter (devuelven 1/0)</td></tr>
+  <tr><td><code>isdigit(c)</code></td><td>1 si es dígito</td></tr>
+  <tr><td><code>isalnum(c)</code></td><td>1 si letra o número — el "¿sigue la palabra o se corta?"</td></tr>
+</table>
+
+<h2>10. Funciones matemáticas (&lt;math.h&gt;)</h2>
+<table>
+  <tr><th>Función</th><th>Qué hace</th><th>Ejemplo</th></tr>
+  <tr><td><code>sqrt(x)</code></td><td>raíz cuadrada</td><td><code>sqrt(9)</code> → 3.0</td></tr>
+  <tr><td><code>pow(base, exp)</code></td><td>potencia (devuelve double)</td><td><code>pow(2, 10)</code> → 1024.0</td></tr>
+  <tr><td><code>fabs(x)</code></td><td>valor absoluto de REAL</td><td><code>fabs(-3.5)</code> → 3.5</td></tr>
+  <tr><td><code>floor(x)</code> / <code>ceil(x)</code></td><td>piso / techo</td><td><code>floor(3.7)</code> → 3.0; <code>ceil(3.2)</code> → 4.0</td></tr>
+  <tr><td><code>round(x)</code></td><td>redondea</td><td><code>round(3.5)</code> → 4.0</td></tr>
+  <tr><td><code>fmod(a, b)</code></td><td>resto de división REAL</td><td>el <code>%</code> solo funciona con enteros</td></tr>
+  <tr><td><code>abs(x)</code></td><td>valor absoluto de ENTERO</td><td>vive en <code>&lt;stdlib.h&gt;</code>, no en math.h</td></tr>
+</table>
+<div class="trampa"><strong>Gotita de math.h:</strong> necesitas <code>#include &lt;math.h&gt;</code> Y compilar con <code>-lm</code>: <code>gcc mi.c -o mi -lm</code>. Sin el <code>-lm</code> aparece "undefined reference to sqrt": el enlazador no encontró las matemáticas.</div>
+
+<h2>11. Archivos (Etapa 8)</h2>
+<table>
+  <tr><th>Función</th><th>Qué hace</th><th>Nota</th></tr>
+  <tr><td><code>fopen("archivo.txt", modo)</code></td><td>abre el archivo</td><td>modos: <code>"w"</code> escribir (borra), <code>"r"</code> leer, <code>"a"</code> agregar; devuelve <code>NULL</code> si falla → revisar</td></tr>
+  <tr><td><code>fprintf(arch, "mi %d\n", x)</code></td><td>escribe como printf pero al archivo</td><td>primer parámetro: el <code>FILE *</code></td></tr>
+  <tr><td><code>fscanf(arch, "%d", &amp;x)</code></td><td>lee como scanf pero del archivo</td><td>lleva <code>&amp;</code> en las variables</td></tr>
+  <tr><td><code>fgets(buf, tam, arch)</code></td><td>lee una línea del archivo</td><td>devuelve NULL al llegar al final (EOF)</td></tr>
+  <tr><td><code>fclose(arch)</code></td><td>cierra y guarda</td><td>no olvidarlo</td></tr>
+  <tr><td><code>fwrite</code> / <code>fread</code></td><td>escribe/lee datos así en crudo (binario)</td><td><code>fwrite(&amp;x, sizeof(x), 1, arch)</code></td></tr>
+</table>
+<pre>FILE *f = fopen("datos.txt", "w");     // declarar y abrir
+if (f == NULL) { printf("No se pudo abrir\n"); return 1; }
+fprintf(f, "Hola %s\n", nombre);        // escribir
+fclose(f);                              // cerrar SIEMPRE</pre>
+<div class="clave">Para LEER hasta el final: <code>while (fgets(buf, tam, f) != NULL) { usar buf; }</code>. El patrón es idéntico a leer de teclado, pero el origen es el archivo.</div>
+
+<h2>12. Los patrones que se repiten en TODO examen</h2>
+<table>
+  <tr><th>Patrón</th><th>Esqueleto (para entender, no memorizar al pie)</th></tr>
+  <tr><td><strong>Verificar al inicio (guardia)</strong></td><td><pre>if (condicion_mala) {   // llena / vacía / índice inválido
+    printf("mensaje claro");
+    return;            // salgo YA, no toco nada
+}</pre></td></tr>
+  <tr><td><strong>Agregar al final</strong></td><td><pre>if (n == cap) crecer(); // realloc
+arr[n] = dato;           // planto en la posición libre
+n++;                     // el contador manda</pre></td></tr>
+  <tr><td><strong>Insertar al inicio</strong></td><td><pre>for (i = n; i &gt; 0; i--) arr[i] = arr[i-1]; // deslizo a la derecha
+arr[0] = dato;  n++;</pre></td></tr>
+  <tr><td><strong>Insertar después de index</strong></td><td><pre>for (i = n; i &gt; index; i--) arr[i] = arr[i-1];
+arr[index+1] = dato;  n++;</pre></td></tr>
+  <tr><td><strong>Borrar en index</strong></td><td><pre>for (i = index; i &lt; n-1; i++) arr[i] = arr[i+1]; // deslizo a la izquierda
+n--;   // el sobrante del final queda invisible</pre></td></tr>
+  <tr><td><strong>Imprimir con separador</strong></td><td><pre>for (i=0; i &lt; n; i++) {
+    if (i &gt; 0) printf(" -&gt; ");   // separador "no primero"
+    printf("%d", arr[i]);
+}
+printf("\n");</pre></td></tr>
+  <tr><td><strong>Máximo / el más largo</strong></td><td><pre>int mejor = 0;                        // o empiezo en arr[0]
+for (i=0; i&lt;n; i++)
+    if (arr[i] &gt; mejor) mejor = arr[i];   // solo "&gt;": primera en empates</pre></td></tr>
+  <tr><td><strong>Buscar por clave (id)</strong></td><td><pre>for (i=0; i&lt;n; i++) if (arr[i].id == buscado) { ... acción ...; return; }
+printf("No encontrado");</pre></td></tr>
+  <tr><td><strong>Total / acumulador</strong></td><td><pre>total += arr[i].precio * arr[i].cantidad;
+printf("%.2f", total);</pre></td></tr>
+  <tr><td><strong>Swap</strong></td><td><pre>int tem = *a;   // guardo la caja
+*a = *b;        // escribo
+*b = tem;</pre> <em>¡caja temporal, nunca puntero-temp!</em></td></tr>
+  <tr><td><strong>Invertir arreglo</strong></td><td><pre>for (i = 0; i &lt; n/2; i++) swap(arr[i], arr[n-1-i]);</pre></td></tr>
+</table>
+
+<h2>13. Los fantasmas que ya cazamos (no volver a caer)</h2>
+<div class="trampa"><strong>1. El punto y coma fantasma.</strong> <code>if (x &gt; y);</code> — ese <code>;</code> cierra el if y lo de abajo se ejecuta SIEMPRE. Mismo riesgo con <code>for (...);</code>.</div>
+<div class="trampa"><strong>2. <code>*ptr++</code> vs <code>(*ptr)++</code>.</strong> El primero avanza el puntero; el segundo suma al valor apuntado (<code>*listSize++</code> era <code>(*listSize)++</code>).</div>
+<div class="trampa"><strong>3. <code>return 0;</code> dentro de función <code>void</code>.</strong> Las void solo hacen <code>return;</code> (sin valor).</div>
+<div class="trampa"><strong>4. <code>sizeof</code> de un puntero.</strong> <code>sizeof(sen)</code> cuando <code>sen</code> es parámetro da 8. Para el largo → <code>strlen</code>.</div>
+<div class="trampa"><strong>5. Asignar arreglos con <code>=</code>.</strong> <code>palabra = larga;</code> no compila → <code>strcpy</code> o mover punteros.</div>
+<div class="trampa"><strong>6. <code>strcat</code> con un <code>int</code>.</strong> Espera cadenas, no caracteres sueltos ni índices.</div>
+<div class="trampa"><strong>7. Off-by-one.</strong> Índices de <code>0</code> a <code>n-1</code>. En borrados: <code>i &lt; n-1</code> (con <code>&lt;=</code> pisas la última). En guardia de índice inválido: <code>index &gt;= n</code> (no <code>&gt;</code>).</div>
+<div class="trampa"><strong>8. Python en C (−1).</strong> No existe. El último elemento es <code>arr[n-1]</code>.</div>
+<div class="trampa"><strong>9. Olvidar el <code>&amp;</code> en <code>scanf</code>.</strong> Se lee basura o truena. (En <code>%s</code> y arreglos NO va).</div>
+<div class="trampa"><strong>10. División entera por descuido.</strong> <code>suma/n</code> con ambos int trunca → mi promedio <code>.5</code> desaparece si no hay cast a float.</div>
+<div class="trampa"><strong>11. Cerrar el flujo olvidado.</strong> Archivos: <code>fclose</code> siempre; memoria: <code>free</code> de todo lo <code>malloc</code>. Pérdida = fugas.</div>
+
+<h2>14. Cuando truena: diagnóstico express</h2>
+<h3>El protocolo (lo más importante)</h3>
+<ol>
+  <li>Lee el PRIMER error del compilador. Ignora los de abajo: la mayoría son secuelas de ese primero.</li>
+  <li>Arregla SOLO ese error → recompila → mira el primer error nuevo → repite.</li>
+  <li>Nunca intentes arreglar 5 errores a la vez: uno arrastra a los demás.</li>
+  <li>Si el programa corre pero da basura: el printf te cuenta la verdad — imprime las variables sospechosas ("verifica, no supongas").</li>
+</ol>
+<table>
+  <tr><th>Mensaje / síntoma</th><th>Qué significa</th><th>Fix</th></tr>
+  <tr><td><code>expected expression before 'else'</code></td><td>el <code>if</code> anterior se cerró de más (el <code>;</code> fantasma o un <code>{</code> mal puesto)</td><td>revisa el <code>;</code> y las llaves</td></tr>
+  <tr><td><code>array type ... is not assignable</code></td><td>un arreglo con <code>=</code></td><td><code>strcpy</code> o mueve el puntero</td></tr>
+  <tr><td><code>incompatible ... pointer conversion</code></td><td>pasas un int donde se espera un puntero/cadena</td><td>pon <code>&amp;</code> o usa <code>strcpy</code></td></tr>
+  <tr><td><code>implicit declaration of function</code></td><td>falta el prototipo de la función</td><td>declárala arriba con su firma</td></tr>
+  <tr><td><code>redefinition of 'x'</code></td><td>la misma variable declarada 2 veces</td><td>borra una de ellas</td></tr>
+  <tr><td><code>use of undeclared identifier 'x'</code></td><td>x no existe en ese bloque (<code>{}</code>)</td><td>declárarla fuera del bloque donde la necesites</td></tr>
+  <tr><td><code>segmentation fault</code> (al correr)</td><td>tocaste memoria fuera de tu arreglo o puntero inválido</td><td>revisa el índice (<code>0..n-1</code>) y el <code>malloc</code>/NULL</td></tr>
+  <tr><td>números locos en la salida</td><td>variable sin inicializar o puntero sin destino</td><td>inicializa (<code>= 0</code>) y asigna el puntero</td></tr>
+</table>
+
+<h2>15. Formatos, buffers y gotitas (lo que SIEMPRE se olvida)</h2>
+<h3>Gotitas fáciles de perder</h3>
+<ul>
+  <li><strong><code>fgets</code> guarda el <code>'\n'</code></strong> al final del texto → matarlo con <code>s[strcspn(s, "\n")] = 0;</code></li>
+  <li>Tras un <code>scanf("%d", &amp;x)</code> queda un <code>'\n'</code> en el buffer que puede arruinar el siguiente <code>fgets</code> o <code>%c</code> → consumirlo con un <code>getchar();</code></li>
+  <li><code>scanf("%c", ...)</code> lee el salto de línea sobrante → el menú "salta" una opción. Limpia el buffer antes.</li>
+  <li><code>toupper</code> / <code>tolower</code> úsalos solo garantizando que es letra (<code>isalpha</code>/<code>isalnum</code>).</li>
+  <li>En <code>printf</code>, los <code>double</code> van con <code>%f</code>; el <code>%lf</code> es solo de <code>scanf</code>.</li>
+  <li><code>return 0;</code> solo en el <code>main</code>; las funciones <code>void</code> usan <code>return;</code> sin valor.</li>
+</ul>
+<h3>Formatos</h3>
+<table>
+  <tr><th>Formato</th><th>Para</th><th>Nota</th></tr>
+  <tr><td><code>%d</code> · <code>%5d</code></td><td>int</td><td>scanf: <code>&amp;var</code></td></tr>
+  <tr><td><code>%f</code> · <code>%.2f</code></td><td>float</td><td><code>%.1f</code> = 1 decimal</td></tr>
+  <tr><td><code>%lf</code></td><td>double</td><td>solo en scanf; printf usa <code>%f</code></td></tr>
+  <tr><td><code>%c</code></td><td>char</td><td>scanf: <code>&amp;var</code></td></tr>
+  <tr><td><code>%s</code></td><td>string</td><td>no lleva <code>&amp;</code>; lee sin espacios (usa fgets para espacios)</td></tr>
+  <tr><td><code>%p</code></td><td>dirección de puntero</td><td>para depurar</td></tr>
+</table>
+
+<h2>16. Recordatorios finales para transcribir a mano</h2>
+<ul>
+  <li><strong>Pregunta ante cada firma:</strong> ¿modifica? → puntero. ¿solo lee simple? → valor. ¿arreglo/string? → puntero. ¿struct que modifica? → puntero.</li>
+  <li><strong>Casos especiales AL PRINCIPIO</strong> (guardia + <code>return;</code>). El enunciado los menciona: "llena…", "vacía…", "índice inválido".</li>
+  <li><strong>Empate → primera:</strong> actualizar solo con <code>&gt;</code>, nunca <code>&gt;=</code>.</li>
+  <li><strong>Memoria:</strong> todo <code>malloc</code> → <code>free</code>; cada <code>realloc</code> → guardar el puntero nuevo y chequear <code>NULL</code>.</li>
+  <li><strong>String:</strong> no <code>=</code>, no <code>==</code> → <code>strcpy</code> / <code>strcmp</code>; termina en <code>'\0'</code>.</li>
+  <li><strong>Archivos:</strong> revisa <code>NULL</code> al abrir, cierra al terminar, <code>fgets</code> para leer líneas.</li>
+  <li><strong>Fuente de verdad:</strong> el contador; los deslizamientos mueven datos. Dominas eso → dominas listas estáticas y dinámicas.</li>
+  <li><strong>Verifica, no supongas:</strong> compila <code>-Wall -Wextra</code>, prueba camino normal Y casos borde.</li>
+  <li><strong>Si el código tiene varias fallas:</strong> tíralo y reescríbelo limpio paso a paso, no lo parchees error por error.</li>
+</ul>
+</body>
+</html>
