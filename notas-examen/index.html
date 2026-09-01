@@ -415,7 +415,7 @@ for (i = 0; i &lt;= len; i++) {           // hasta el '\0' inclusive
         j = 0; actual[0] = '\0';   // reset para la proxima
     }
 }
-printf("%s", mejor);</pre> Solo <code>&gt;</code> (no <code>&gt;=</code>) → en empates gana la PRIMERA. En "solo letras" usa <code>isalpha()</code>, no <code>isalnum()</code> (éste acepta dígitos).</td></tr>
+printf("%s", mejor);</pre> Solo <code>&gt;</code> (no <code>&gt;=</code>) → en empates gana la PRIMERA. La condición "es letra" la resuelves con <code>isalpha</code> / <code>isalnum</code> (cómo elegir → sección 9).</td></tr>
   <tr><td><strong>Total / acumulador</strong></td><td><pre>total += arr[i].precio * arr[i].cantidad;
 printf("%.2f", total);</pre></td></tr>
   <tr><td><strong>Swap</strong></td><td><pre>int tem = *a;   // guardo la caja

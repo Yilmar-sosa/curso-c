@@ -1,4 +1,4 @@
- nclude <stdio.h>
+#include <stdio.h>
 #include <stdint.h>
 
 int main(){
@@ -18,7 +18,20 @@ int main(){
     printf("Estudiantes: %u\n", studentCount);
     printf("Cursos: %u\n", courseCount);
     printf("Matriculas: %u\n", enrollCount);
+
+    uint32_t id, edad;
+    unsigned char flags;
+    char nombre[24];
+    for()
+    
+
+
+
     fclose(f);
     return 0;
 }
- 
+/*Tarea:
+Implementa un programa en C que lea el archivo binario e imprima los nombres, 
+edades y géneros de todos los estudiantes dentro de un rango de edades.
+ El rango de edades y el nombre del archivo binario se proporcionarán como argumentos de línea de comandos. 
+ El filtro de edades debe incluir los argumentos de límite superior e inferior.*/
