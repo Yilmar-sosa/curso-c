@@ -163,3 +163,30 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
   `(*inventario)[i]` entre paréntesis porque `[]` tiene más precedencia que `*`.
 - Pendiente: corregir inventario_a_corregir.c función por función; continuar Etapa 10 (Agenda
   integrador módulo2 archivos) — deadline 31-ago.
+
+## SESIÓN 2026-09-01 (mañana) — INVENTARIO CORREGIDO + CHULETA AMPLIADA
+- inventario_a_corregir.c COMPLETADO: compila con -Wall (exit 0) y salida 100% correcta.
+  Verificado: inventario inicial (3 productos), realloc al agregar 4º, actualizar Mouse 15->20,
+  buscar Monitor por id 3, valor total 1580.00 = 10*25.5+20*12.75+5*150+8*40.
+- Errores corregidos en sesión: (1) `*` suelto, (2) comparar `*capacidad==NULL` -> `*inventario==NULL`,
+  (3) `(*(inventario))[i]` mal con una estrella -> `inventario[i]`, (4) PRECEDENCIA de `[]` sobre `*`
+  -> por eso `(*inventario)[i]` con paréntesis, (5) `wash.tiempo`? no: `[i+1]` -> `[i]`, falta `;`,
+  (6) llaves desbalanceadas (imprimirInventario dejó 1 `{` sin cerrar), (7) dead code tras `return;`
+  (`*inventario=tem; *capacidad=nuevacap;` después del return NUNCA corrían), (8) agregar producto
+  DENTRO del if(está lleno) -> solo agregaba cuando cabía (cantidad nunca incrementaba),
+  (9) mensaje fantasma "no encontrado": patrón `e != indice` defectuoso -> reemplazado por BANDERA
+  `encontrado = 0/1` + `if(!encontrado)` tras el for, (10) `return 0;` como no-encontrado -> -1.
+- CONCEPTOS NUEVOS HOY (clave examen):
+  - REGLA `*` vs `**`: 1 estrella -> `inv[i]`; 2 estrellas -> `(*inv)[i]`. 2 estrellas SOLO cuando
+    la función cambia a dónde apunta el puntero (realloc). `[]` tiene más precedencia que `*`.
+  - El if(está lleno) es SOLO para crecer (realloc); el agregar + n++ van SIEMPRE fuera del if.
+  - Bandera booleana: `encontrado=0` (asumo NO existe), `encontrado=1` al encontrarlo, `if(!encontrado)`
+    = "nunca se marcó" -> mensaje. La bandera es sí/no, NO guarda posición (eso es el contador `i`).
+  - "No encontrado" se revisa DESPUÉS de recorrer todo, jamás dentro con `else return`.
+  - return -1 como centinela de no-encontrado (0 sería índice válido).
+  - isalpha vs isalnum: "solo letras" -> isalpha; alfanumérico -> isalnum.
+- CHULETA notas-examen/index.html AMPLIADA con: regla `*` vs `**` (tabla), realloc correcto
+  paso a paso, dead-code-tras-return, patrón bandera, devolver -1, patrón palabra más larga,
+  fantasmas 12-15, y recordatorios finales. HTML validado (ningún div abierto).
+- Ritual pendiente: commit + push de la sesión (hicieron push en las 07:14 y 08:43 por su cuenta,
+  verificar al cierre).

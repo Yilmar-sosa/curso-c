@@ -41,12 +41,11 @@ void inicializarInventario(Producto **inventario, int *cantidadProductos, int *c
 *cantidadProductos = 0;//* Inicializar cantidadProductos en 0.*/
 *capacidad = 3;/* Inicializar capacidad en 3;*/
 *inventario = malloc(3 * sizeof(Producto));// Reservar memoria dinamica para guardar inicialmente 3 productos.Usar malloc.
-*
-if(*capacidad == NULL){
+if(*inventario == NULL){
   printf("Error al asignar memoria");// Verificar si la memoria fue asignada correctamente.
   return;
 }
-
+}
 void agregarProducto(Producto **inventario, int *cantidadProductos, int *capacidad, int id, char nombre[], int cantidad, float precio) {
     // code goes here
     //Esta funcion debe:
@@ -58,45 +57,49 @@ if(*cantidadProductos == *capacidad){
     if(tem == NULL){
       printf("Error no se ha podido expandir la memoria");
       return;
+    }
       *inventario = tem;
       *capacidad = nuevacap;
-    }
+   }
     int i = *cantidadProductos;
     (*inventario)[i].id = id;
     strcpy((*inventario)[i].nombre, nombre);
     (*inventario)[i].cantidad = cantidad;
-    (*inventario)[i].precio = precio
+    (*inventario)[i].precio = precio;
 
     (*cantidadProductos)++;//Actualizar correctamente cantidadProductos.
 
- }
-
+}
 int buscarProductoPorId(Producto *inventario, int cantidadProductos, int id) {
 
 for(int i = 0; i < cantidadProductos; i++){
-   if((*inventario)[i].id == id){//* Buscar un producto por su id.*/
-      int indice = i;
-      return indice; ////* Retornar el indice donde se encuentra el producto.
+   if(inventario[i].id == id){//* Buscar un producto por su id.*/
+      return i;
+       ////* Retornar el indice donde se encuentra el producto.
    }
-   else{           //* Retornar -1 si no existe.
+}  //* Retornar -1 si no existe.
     return -1;
-   }
 }
 
 void actualizarCantidad(Producto *inventario, int cantidadProductos, int id, int nuevaCantidad){
-    for(int i = 0; i < cantidadProductos; i++){//* Buscar un producto por su id.
-       if((*inventario)[i].id == id){//Si existe, actualizar su cantidad.
-          (*cantidad)[i].cantidad = nuevaCantidad;
+   int encontrado = 0; 
+   for(int i = 0; i < cantidadProductos; i++){//* Buscar un producto por su id.
+       if(inventario[i].id == id){//Si existe, actualizar su cantidad.
+          inventario[i].cantidad = nuevaCantidad;
+          encontrado = 1;
     }
-       else{
+
+   }
+      if(!encontrado){//si nunca se encontro
           printf("Producto con ID X no encontrado");//* Si no existe, imprimir: Producto con ID X no encontrado. */
+}
 }
 
 float calcularValorTotal(Producto *inventario, int cantidadProductos) {
     int cantidadActual = 0;
     int suma = 0;
     for(int i = 0; i < cantidadProductos; i++){// Calcular el valor total del inventario.
-        cantidadActual = (*inventario)[i].valor * (*inventario)[i+1].precio
+        cantidadActual = inventario[i].cantidad * inventario[i].precio;
         suma = suma + cantidadActual;// El valor de cada producto es: cantidad * precio
     }
     return suma;
@@ -104,16 +107,17 @@ float calcularValorTotal(Producto *inventario, int cantidadProductos) {
 
 void imprimirInventario(Producto *inventario, int cantidadProductos) {
     // code goes here
-    for(int i = 0; i < cantidad; i++){//Esta funcion debe imprimir todos los productos con el siguiente formato:
-       printf("D %d | Nombre: %s | Cantidad: %d | Precio: %.2f\n", i+1, inventario[i].nombre, inventario.cantidad, inventario.precio);//D: 1 | Nombre: Teclado | Cantidad: 10 | Precio: 25.50
+    for(int i = 0; i < cantidadProductos; i++){//Esta funcion debe imprimir todos los productos con el siguiente formato:
+       printf("D %d | Nombre: %s | Cantidad: %d | Precio: %.2f\n", i+1, inventario[i].nombre, inventario[i].cantidad, inventario[i].precio);//D: 1 | Nombre: Teclado | Cantidad: 10 | Precio: 25.50
+}
 }
 
 void liberarInventario(Producto **inventario, int *cantidadProductos, int *capacidad) {
     // code goes here
     //Esta funcion debe:
 
-free(**inventario);//Liberar la memoria dinamica con free.
-Producto ** invertario = NULL//* Colocar el puntero inventario en NULL.*/
+free(*inventario);//Liberar la memoria dinamica con free.
+* inventario = NULL;//Colocar el puntero inventario en NULL.*/
 *cantidadProductos = 0;
 *capacidad = 0;//* Reiniciar cantidadProductos y capacidad a 0.
 }

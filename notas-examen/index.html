@@ -238,6 +238,14 @@ int main() {
   <tr><td><code>arr[i]</code></td><td>equivale a <code>*(arr + i)</code></td><td><code>arr[3]</code></td></tr>
   <tr><td><code>&amp;arr[i]</code></td><td>dirección del elemento i</td><td><code>scanf("%d", &amp;arr[i]);</code></td></tr>
 </table>
+<div class="clave"><strong>LA REGLA QUE LO DOMINA TODO (Examen Prueba 2):</strong> cómo accedo a un elemento según la firma de la función.
+  <table>
+    <tr><th>Firma del parámetro</th><th>Cuándo la ves</th><th>Acceso al producto i</th></tr>
+    <tr><td><code>Producto *inv</code> (1 estrella)</td><td>solo LEES o modificas elementos</td><td><code>inv[i].campo</code> — directo, SIN paréntesis</td></tr>
+    <tr><td><code>Producto **inv</code> (2 estrellas)</td><td>la función debe <strong>CAMBIAR a dónde apunta el puntero</strong> (realloc mueve el bloque)</td><td><code>(*inv)[i].campo</code> — con paréntesis SIEMPRE</td></tr>
+  </table>
+  <strong>Por qué el paréntesis:</strong> en C <code>[]</code> tiene MÁS precedencia que <code>*</code>. Sin paréntesis, <code>*inv[i]</code> se lee <code>*(inv[i])</code> (primero indexa, luego desreferencia) = ERROR. Con <code>(*inv)[i]</code> primero sacas el puntero real (<code>*inv</code>) y luego indexas. <em>"Desreferencia el doble puntero antes de indexar."</em>
+</div>
 
 <h2>5. Punteros y aritmética de punteros</h2>
 <ul>
@@ -262,6 +270,28 @@ int main() {
     capacidad *= 2;
 }</pre>
 <div class="clave"><strong>¿Puntero doble (<code>Producto **inv</code>)?</strong> Solo si la función debe CAMBIAR a dónde apunta el puntero del main (un realloc movió el bloque). Si solo modificas elementos, el puntero simple alcanza.</div>
+<div class="clave"><strong>La estructura CORRECTA de agregar (realloc):</strong> el <code>if(está lleno)</code> es SOLO para crecer la memoria; AGREGAR el dato y <code>n++</code> van SIEMPRE, fuera de ese if.
+  <pre>if (*cantidad &lt; *capacidad) {              // NO: "si hay espacio"...
+    // ...agregar aquí               // ESTO está MAL: solo agregaría
+}                                     // cuando cabe, y si el dato llena
+                                      // la capacidad, se pierde
+// CORRECTO:
+if (*cantidad == *capacidad) {        // 1) ¿está lleno? → SOLO crecer
+    nuevo = realloc(*inv, 2*(*capacidad) * sizeof(Producto));
+    if (nuevo == NULL) { error; return; }   // falló → salir y NO tocar nada
+    *inv = nuevo;                           // ✔ después del return-check
+    *capacidad *= 2;
+}
+int i = *cantidad;                    // 2) agregar SIEMPRE (fuera del if)
+(*inv)[i].id = id;
+strcpy((*inv)[i].nombre, nombre);
+(*inv)[i].cantidad = cantidad;
+(*inv)[i].precio = precio;
+(*cantidad)++;</pre></div>
+<div class="trampa"><strong>Código muerto tras <code>return;</code>:</strong> todo lo que escribas DESPUÉS de un <code>return</code> dentro del mismo bloque NUNCA se ejecuta (el <code>return</code> es el botón de salida). Ej. el error clásico:
+  <pre>if (temp == NULL) { error; return; *inv = temp; }   // *inv = temp NUNCA corre</pre>
+  Las actualizaciones importantes van DESPUÉS del bloque <code>if</code>, no después del return.</div>
+<div class="clave"><strong>Recuerda la analogía:</strong> un puntero NO es un arreglo hasta que le <em>asignas memoria</em> (<code>malloc</code>). <code>Producto *p = NULL;</code> = solo un puntero vacío. Recién con <code>p = malloc(n*sizeof(Producto))</code> se comporta como arreglo (<code>p[0], p[1]...</code>). Y <code>Producto *temp</code> en el realloc guarda lo que devuelve realloc: un puntero al PRIMER Producto del bloque (los demás son contiguos).</div>
 
 <h2>7. struct</h2>
 <pre>typedef struct {
@@ -362,6 +392,30 @@ for (i=0; i&lt;n; i++)
     if (arr[i] &gt; mejor) mejor = arr[i];   // solo "&gt;": primera en empates</pre></td></tr>
   <tr><td><strong>Buscar por clave (id)</strong></td><td><pre>for (i=0; i&lt;n; i++) if (arr[i].id == buscado) { ... acción ...; return; }
 printf("No encontrado");</pre></td></tr>
+  <tr><td><strong>Buscar y actuar: la BANDERA (Examen Prueba 2)</strong></td><td><pre>int encontrado = 0;             // "asumo que NO existe"
+for (i=0; i&lt;n; i++) {
+    if (arr[i].id == buscado) {
+        arr[i].cantidad = nueva;    // ACTÚO
+        encontrado = 1;             // "¡sí existe!" queda como recuerdo
+    }
+}
+if (!encontrado)                    // "not": si quedo en 0 → no aparecio
+    printf("no encontrado");</pre> La bandera es un booleano (0=falso, 1=verdadero). No se compara con la posición (eso es <code>i</code>); solo dice "alguna vez pasó o no". El <strong>no-encontrado se revisa DESPUÉS del for</strong>, no dentro.</td></tr>
+  <tr><td><strong>Devolver posición o "no existe"</strong></td><td><pre>for (i=0; i&lt;n; i++)
+    if (arr[i].id == buscado) return i;   // indice real
+return -1;                                 // DESPUES del for</pre> El <strong>-1</strong> nunca es un índice válido. NUNCA uses <code>return 0;</code> como "no encontrado" → 0 parece índice 0 válido y el main accedería a basura.</td></tr>
+  <tr><td><strong>Palabra más larga / separar palabras (Examen Prueba 1)</strong></td><td><pre>char actual[largo], mejor[largo];
+actual[0] = '\0'; mejor[0] = '\0';
+int j = 0;
+for (i = 0; i &lt;= len; i++) {           // hasta el '\0' inclusive
+    if (es letra) {
+        actual[j++] = s[i]; actual[j] = '\0';   // acumulo la palabra
+    } else {
+        if (strlen(actual) &gt; strlen(mejor)) strcpy(mejor, actual);
+        j = 0; actual[0] = '\0';   // reset para la proxima
+    }
+}
+printf("%s", mejor);</pre> Solo <code>&gt;</code> (no <code>&gt;=</code>) → en empates gana la PRIMERA. En "solo letras" usa <code>isalpha()</code>, no <code>isalnum()</code> (éste acepta dígitos).</td></tr>
   <tr><td><strong>Total / acumulador</strong></td><td><pre>total += arr[i].precio * arr[i].cantidad;
 printf("%.2f", total);</pre></td></tr>
   <tr><td><strong>Swap</strong></td><td><pre>int tem = *a;   // guardo la caja
@@ -382,6 +436,10 @@ printf("%.2f", total);</pre></td></tr>
 <div class="trampa"><strong>9. Olvidar el <code>&amp;</code> en <code>scanf</code>.</strong> Se lee basura o truena. (En <code>%s</code> y arreglos NO va).</div>
 <div class="trampa"><strong>10. División entera por descuido.</strong> <code>suma/n</code> con ambos int trunca → mi promedio <code>.5</code> desaparece si no hay cast a float.</div>
 <div class="trampa"><strong>11. Cerrar el flujo olvidado.</strong> Archivos: <code>fclose</code> siempre; memoria: <code>free</code> de todo lo <code>malloc</code>. Pérdida = fugas.</div>
+<div class="trampa"><strong>12. Mezcla <code>*</code> vs <code>**</code>.</strong> Usar <code>(*inv)[i]</code> en una función que recibe <code>Producto *inv</code> (1 estrella) NO compila. Regla: 1 estrella → <code>inv[i]</code>; 2 estrellas → <code>(*inv)[i]</code>. (Examen Prueba 2).</div>
+<div class="trampa"><strong>13. Agregar dentro del <code>if(está lleno)</code>.</strong> Si pones el "asignar dato + <code>n++</code>" dentro del <code>if(cantidad == capacidad)</code>, solo agregas cuando está lleno (y el primero nunca se agrega). El crecer es aparte del agregar. (Examen Prueba 2)</div>
+<div class="trampa"><strong>14. Código muerto tras <code>return;</code>.</strong> Líneas importantes después de un <code>return;</code> en el mismo bloque no corren jamás (ej. <code>*inv = temp;</code> después de <code>return; </code>).</div>
+<div class="trampa"><strong>15. "No encontrado" que devuelve <code>0</code>.</strong> 0 es índice válido → el main cree que sí encontró y accede a basura. Devuelve <code>-1</code> cuando no existe.</div>
 
 <h2>14. Cuando truena: diagnóstico express</h2>
 <h3>El protocolo (lo más importante)</h3>
@@ -427,6 +485,10 @@ printf("%.2f", total);</pre></td></tr>
 <h2>16. Recordatorios finales para transcribir a mano</h2>
 <ul>
   <li><strong>Pregunta ante cada firma:</strong> ¿modifica? → puntero. ¿solo lee simple? → valor. ¿arreglo/string? → puntero. ¿struct que modifica? → puntero.</li>
+  <li><strong>¿1 ó 2 estrellas?</strong> 2 estrellas (<code>**</code>) en la firma = hay que <code>(*inv)[i]</code> y además el main debe ver el cambio de puntero (realloc). De lo contrario, 1 estrella normal.</li>
+  <li><strong>El "si está lleno" es del crecimiento, no del agregado.</strong> Agregar siempre va fuera del <code>if(capacidad)</code>.</li>
+  <li><strong>Nada importante después de un <code>return;</code>.</strong></li>
+  <li><strong>Buscar-sí-actúo usar bandera; buscar-devolver usar <code>-1</code>.</strong></li>
   <li><strong>Casos especiales AL PRINCIPIO</strong> (guardia + <code>return;</code>). El enunciado los menciona: "llena…", "vacía…", "índice inválido".</li>
   <li><strong>Empate → primera:</strong> actualizar solo con <code>&gt;</code>, nunca <code>&gt;=</code>.</li>
   <li><strong>Memoria:</strong> todo <code>malloc</code> → <code>free</code>; cada <code>realloc</code> → guardar el puntero nuevo y chequear <code>NULL</code>.</li>
