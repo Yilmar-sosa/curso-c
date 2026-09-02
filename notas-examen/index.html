@@ -482,7 +482,62 @@ printf("%.2f", total);</pre></td></tr>
   <tr><td><code>%p</code></td><td>dirección de puntero</td><td>para depurar</td></tr>
 </table>
 
-<h2>16. Recordatorios finales para transcribir a mano</h2>
+<h2>16. Línea de comandos (argc/argv) y archivos binarios — Taller Ruta 1</h2>
+<h3>Lo que te entrega main al arrancar</h3>
+<pre>int main(int argc, char *argv[])
+//  argc = CUÁNTOS argumentos (conteo automático del sistema, INCLUYE el programa)
+//  argv = el ARREGLO de textos. argv[0] = nombre del propio programa
+//  Uso:  ./prog.exe datos.bin 18 25   ->  argc=4 ; argv[1]="datos.bin" argv[2]="18"
+//  Regla: argv[2] NO es el int 18, es el TEXTO "18" -> atoi lo convierte</pre>
+<table>
+  <tr><th>Situación</th><th>Qué pasa</th></tr>
+  <tr><td>argv[2] = "18"</td><td>es TEXTO; <code>atoi("18")</code> → 18 (número de verdad)</td></tr>
+  <tr><td><code>atoi("mundo")</code></td><td>no son dígitos → devuelve <strong>0</strong></td></tr>
+  <tr><td><code>atoi("12años")</code></td><td>lee dígitos y se detiene en la letra → <strong>12</strong></td></tr>
+  <tr><td><code>argc != 4</code> (faltan)</td><td>guardia: imprimir uso y <code>return 1;</code></td></tr>
+  <tr><td>4 argumentos pero en MAL orden</td><td>la guardia pasa igual; <code>fopen(argv[1])</code> intenta abrir "18" → <code>NULL</code> → error limpio</td></tr>
+</table>
+<div class="trampa"><strong>En la terminal NO existen los int: todo lo que escribes es TEXTO.</strong> El único número de verdad es <code>argc</code>, y no lo escribió el usuario: el sistema lo calcula contando los textos. Por eso "todos textos" y "argc es int" no se contradicen.</div>
+<h3>Archivos binarios (fread)</h3>
+<pre>FILE *f = fopen("datos.bin", "rb");       // "rb" = lectura binaria
+if (f == NULL) { printf("no abrio\n"); return 1; }   // siempre revisar
+fread(&amp;id,     sizeof(id),     1, f);     // variables escalares: con &amp;
+fread(nombre,  sizeof(nombre), 1, f);     // arreglo/string: SIN &amp; (ya es dirección)</pre>
+<div class="clave">
+  <strong>El "i" del for NO se mueve por el archivo.</strong> Cada <code>fread</code> avanza solo la "flechita"
+  interna del archivo (<em>file position</em>) la cantidad de bytes leídos. El <code>for</code> solo cuenta vueltas.
+</div>
+<div class="clave">
+  <strong>El encabezado se LEER aunque no lo uses:</strong> así mueves la flechita hasta donde empiezan los
+  estudiantes. Si no lo leyeras, el primer registro sale basura. Después del bloque de estudiantes vienen otros
+  bloques (cursos, matrículas): la tarea decide dónde parar.
+</div>
+<h3>La estructura del registro SE DESCUBRE (no viene escrita)</h3>
+<ul>
+  <li><strong>Mirar los bytes</strong> con <code>xxd</code> (visor hexa de Git Bash): los nombres saltan a la vista porque son texto legible ("Jake Pierce"). Los números (id, edad) están al lado.</li>
+  <li>Identificado el texto → ubicar los números alrededor → deducir el orden de campos → <code>fread</code> en ese mismo orden.</li>
+  <li>Para confirmar el patrón en muchos registros: <strong>mini-programa desechable</strong> que imprime columnas (id / flags / edad / nombre). Es experimentar, no adivinar.</li>
+  <li><code>fread</code> devuelve cuántos datos leyó: <strong>0 = se acabó el archivo</strong> (truncado o mal leído).</li>
+</ul>
+<h3>Endianness (por qué a veces "los números salen al revés")</h3>
+<table>
+  <tr><th>Dónde está el número</th><th>Valor</th></tr>
+  <tr><td>Bytes escritos en el archivo</td><td><code>aa ae</code> (el magic: 0xAAAE "de humano")</td></tr>
+  <tr><td>Lo que lee la máquina little-endian (x86)</td><td><code>0xAEAA</code> (primero invierte los dos bytes)</td></tr>
+  <tr><td>La edad <code>12 00 00 00</code></td><td>para C es 18 (bytes al revés que un humano)</td></tr>
+</table>
+<div class="trampa"><strong>Señal de endianness:</strong> imprimes y te sale un número gigantote (33554432, 1801492992…) → leíste bytes corridos o en el orden equivocado. Comprobar: recuerda que un <code>uint32</code> se escribe con el byte pequeño PRIMERO.</div>
+<h3>Máscaras de bits (flags)</h3>
+<ul>
+  <li>Un byte <em>flags</em> guarda sí/no en bits individuales. <strong>Solo toma pocas combinaciones</strong> (0x00, 0x40, 0x80, 0xC0). Un número normal (la edad: 18..20) varía de a poquito; un flags no. Esa es la pista para reconocerlo.</li>
+  <li>Para preguntar UN solo bit se usa una <strong>máscara</strong> (plantilla con un hueco): <code>flags &amp; 0x80</code> "apaga" todo menos el bit 7. <code>0x80</code> = <code>10000000</code> (bit 7).</li>
+  <li>AND bit a bit: <code>1&amp;1=1</code>, <code>1&amp;0=0</code>. Al multiplicar por la máscara, solo sobrevive el bit que preguntas.</li>
+  <li>Decidir con el resultado: <code>char genero = (flags &amp; 0x80) ? 'F' : 'M';</code> — ternario: <code>(condición) ? valorSiVerdadero : valorSiFalso</code>.</li>
+  <li>El <code>0x80</code> NO sale del aire: sale de <strong>correlacionar la tabla</strong> (todas las mujeres tenían el bit 0x80 encendido; todos los hombres apagado; el que tenía 0x40 era hombre → ese bit era otra cosa).</li>
+</ul>
+<div class="trampa"><strong>No confundas</strong> <code>flags == 0x80</code> (comparar TODO el byte, falla si hay otros bits, ej. 0xC0) con <code>flags &amp; 0x80</code> (preguntar solo ese bit, funciona con 0x80 Y 0xC0).</div>
+
+<h2>17. Recordatorios finales para transcribir a mano</h2>
 <ul>
   <li><strong>Pregunta ante cada firma:</strong> ¿modifica? → puntero. ¿solo lee simple? → valor. ¿arreglo/string? → puntero. ¿struct que modifica? → puntero.</li>
   <li><strong>¿1 ó 2 estrellas?</strong> 2 estrellas (<code>**</code>) en la firma = hay que <code>(*inv)[i]</code> y además el main debe ver el cambio de puntero (realloc). De lo contrario, 1 estrella normal.</li>
@@ -497,6 +552,10 @@ printf("%.2f", total);</pre></td></tr>
   <li><strong>Fuente de verdad:</strong> el contador; los deslizamientos mueven datos. Dominas eso → dominas listas estáticas y dinámicas.</li>
   <li><strong>Verifica, no supongas:</strong> compila <code>-Wall -Wextra</code>, prueba camino normal Y casos borde.</li>
   <li><strong>Si el código tiene varias fallas:</strong> tíralo y reescríbelo limpio paso a paso, no lo parchees error por error.</li>
+  <li><strong>Terminal:</strong> todo lo que escribes es TEXTO -> <code>atoi</code> para números; <code>argc</code> cuenta y va desde <code>argv[0]</code> (el mismo programa).</li>
+  <li><strong>Binario:</strong> el encabezado se lee para saltar los bloques; <code>fread</code> avanza la flechita sola; el <code>for</code> solo cuenta vueltas.</li>
+  <li><strong>Formato desconocido:</strong> míralo con <code>xxd</code>, busca el texto legible, ubica los números alrededor, y prueba con mini-programas desechables.</li>
+  <li><strong>Flags:</strong> para preguntar UN bit usa <code>flags &amp; 0x80</code> (máscara), NUNCA <code>flags == 0x80</code>.</li>
 </ul>
 </body>
 </html>

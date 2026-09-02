@@ -2,7 +2,7 @@
 
 Estudiante: Yilmar
 Carpeta del curso: C:\Users\USUARIO\Documents\c
-Última sesión: 2026-08-29 (Taller institucional "Etapa 1 - Homework" completado: Puntos 1 y 2)
+Última sesión: 2026-09-01 (mañana) — inventario_a_corregir.c completado; Taller Ruta 1 tarea1 en proceso (encabezado binario leído, falta bucle de estudiantes)
 Repositorio: https://github.com/Yilmar-sosa/curso-c
 
 ## Estado de etapas
@@ -190,3 +190,26 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
   fantasmas 12-15, y recordatorios finales. HTML validado (ningún div abierto).
 - Ritual pendiente: commit + push de la sesión (hicieron push en las 07:14 y 08:43 por su cuenta,
   verificar al cierre).
+
+## SESIÓN 2026-09-02 — TAREA 1 TALLER RUTA 1 (guía + examen final cerca)
+- TAREA 1 completada como SOLUCIÓN-GUÍA en TALLER-ETAPA1/tarea1_SOLUCION_guia.c (archivo aparte,
+  sin tocar primernombre_apellido_tarea1.c). Compila con -Wall -Wextra sin avisos y verificado
+  (filtro 18-18 imprime solo los de 18 con género correcto).
+- ESTRUCTURA DEL BINARIO descifrada por ingeniería inversa (xxd + mini-programa desechable):
+  encabezado 14 bytes (magic uint16 + studentCount/courseCount/enrollCount uint32) y luego 1000
+  estudiantes de 32 bytes c/u: id(4) → flags(1) → nombre[23] → edad(4). El flags guarda el género
+  en el bit 7: 0x80/0xC0 = F, 0x00/0x40 = M (verificadas 611 F / 389 M). El archivo sigue con
+  cursos y matrículas (no necesarios en tarea 1).
+- CONCEPTOS NUEVOS hoy: argc/argv (todo en terminal es texto, argc cuenta incluyendo argv[0],
+  atoi convierte y para en la 1ra letra: "12años"→12, "a17"→0); el for NO mueve el archivo,
+  cada fread avanza solo la posición interna; el encabezado se lee para "saltarlo"; endianness
+  little-endian (aa ae → leído 0xAEAA, magic real 0xAAAE; 12 00 00 00 = 18); números gigantes
+  al imprimir = bytes corridos/campos en mal orden; máscara de bits flags & 0x80 (== 0x80 es
+  trampa con 0xC0); ternario (cond)?A:B; descubrir formato = buscar texto legible con xxd +
+  correlacionar campos.
+- CHULETA AMPLIADA: nueva sección "16. Línea de comandos y archivos binarios" (argc/argv, fread,
+  endianness, máscaras) + 5 recordatorios nuevos en la 17. HTML validado (39 div balanceados).
+- ACUERDO con estudiante: mañana intentará la TAREA 1 SOLO con la lógica aprendida;
+  la guía queda como referencia. Lección pendiente para tareas 2 y 3: los otros bloques del binario
+  (cursos/matrículas) — estructura distinta, mismo método. Faltan los enunciados de tareas 2 y 3.
+- Pendiente: opcional commit+push de hoy (guía + PROGRESS + chuleta).
