@@ -117,7 +117,6 @@
 <button class="boton" onclick="window.print()">Imprimir / guardar como PDF</button>
 <h1>Chuleta de C para el Examen</h1>
 <p class="subtitulo">Notas conceptuales para pasar a mano · Yilmar · AvanzaTec · Temas: Etapas 1 a 9 + taller</p>
-
 <h2>0. Cómo partir cualquier ejercicio (el método)</h2>
 <ol>
   <li><strong>Lee el enunciado 2 veces.</strong> La segunda, subraya: qué funciones pide, qué salida exacta quiere, qué casos especiales menciona ("si la lista está llena…").</li>
@@ -537,7 +536,87 @@ fread(nombre,  sizeof(nombre), 1, f);     // arreglo/string: SIN &amp; (ya es di
 </ul>
 <div class="trampa"><strong>No confundas</strong> <code>flags == 0x80</code> (comparar TODO el byte, falla si hay otros bits, ej. 0xC0) con <code>flags &amp; 0x80</code> (preguntar solo ese bit, funciona con 0x80 Y 0xC0).</div>
 
-<h2>17. Recordatorios finales para transcribir a mano</h2>
+<h2>17. Taller Ruta 1 — Tareas 2 y 3 (los patrones nuevos)</h2>
+<h3>El diagrama del archivo binario (una sola idea, 3 tareas)</h3>
+<pre>ENCABEZADO (14 bytes)  ->  magic(2) studentCount(4) courseCount(4) enrollCount(4)
+BLOQUE ESTUDIANTES     ->  studentCount registros de 32 bytes: id(4) flags(1) nombre[23] edad(4)
+BLOQUE CURSOS          ->  courseCount registros de 40 bytes: id(4) nombre[32] horas(4)
+BLOQUE MATRICULAS      ->  enrollCount registros de 16 bytes: studentID(4) courseID(4) year(4) sem(4)</pre>
+<div class="clave"><strong>Regla maestro del salto de bloques:</strong> para llegar al bloque que te interesa, LEES los que quieres guardar y HACES <code>fseek</code> sobre los que no.
+  <ul>
+    <li><strong>Tarea 1:</strong> lee encabezado + estudiantes, para.</li>
+    <li><strong>Tarea 2:</strong> lee encabezado + estudiantes + <strong>cursos</strong> (guarda sus id) + matrículas.</li>
+    <li><strong>Tarea 3:</strong> lee encabezado + estudiantes, <strong>salta los cursos con <code>fseek(f, courseCount * 40, SEEK_CUR)</code></strong> y lee las matrículas.</li>
+  </ul>
+  Cada curso pesa 40 bytes (4 + 32 + 4), por eso se salta <code>courseCount * 40</code>. <code>SEEK_CUR</code> = "a partir de donde estoy ahora".</div>
+<h3>Patrón "filtrar con continue" (Tarea 2: promedio por curso)</h3>
+<pre>// recorremos TODAS las matrículas, pero solo contamos las del curso pedido
+for (i = 0; i &lt; enrollCount; i++) {
+    fread(&amp;sid, ...); fread(&amp;cid, ...); fread(&amp;year, ...); fread(&amp;sem, ...);
+    if (cid != cursoBuscado)
+        continue;            // esta matrícula no me importa -> siguiente vuelta
+    // aquí SOLO llegamos si la matrícula es del curso que buscamos
+    for (j = 0; j &lt; studentCount; j++)
+        if (estudiantes[j].id == sid) {
+            suma += estudiantes[j].edad;
+            cantidad++;
+            break;           // ya encontré la edad, no sigo buscando
+        }
+}</pre>
+<div class="clave"><strong>Promedio = suma / cantidad.</strong> Guarda la suma (acumulador, empieza en 0), cuenta (contador, empieza en 0), y al final divide. CUIDADO: si <code>cantidad == 0</code> el <code>/0</code> truena → primero el <code>if (cantidad == 0)</code> (caso especial al inicio), luego el promedio con <code>double</code> y cast <code>(double)suma / cantidad</code>.</div>
+<div class="trampa"><strong>No ignores la unidad/el tipo de los uint:</strong> en binarios los id/cuenta son <code>uint32_t</code> → imprimir con <code>%u</code>, no <code>%d</code> (aunque con estos valores "funcione", es la forma correcta). El <code>printf</code> con tipo incorrecto es un bug latente.</div>
+<h3>Patrón "primera aparición" (Tarea 3: estudiantes DISTINTOS)</h3>
+<p><strong>El reto clave del enunciado:</strong> "estudiantes distintos por semestre" = si un estudiante toma VARIAS clases en el MISMO (year, sem), se cuenta UNA sola vez.</p>
+<pre>// guardo TODAS las matrículas en el arreglo mat[] de una vez
+for (i = 0; i &lt; enrollCount; i++) {
+    int esPrimera = 1;                     // "ASUMO que esta es la primera vez"
+    for (k = 0; k &lt; i; k++) {              // miro TODAS las anteriores
+        if (mat[k].sid == mat[i].sid &amp;&amp;    // ¿otra matrícula del MISMO estudiante
+            mat[k].year == mat[i].year &amp;&amp;  // MISMO año y
+            mat[k].sem  == mat[i].sem) {   // MISMO semestre?
+            esPrimera = 0;                 // ya había salido -> NO es primera
+            break;
+        }
+    }
+    if (esPrimera == 0)
+        continue;                          // ya lo conté en este (year,sem), salto
+    // ...aquí es la PRIMERA vez de este estudiante en (year,sem): lo cuento
+    // busco sus flags (género/tipo) en el arreglo de estudiantes y sumo a su categoría
+}</pre>
+<div class="clave"><strong>La bandera "esPrimera" es el mismo patrón de 'encontrado' del Examen Prueba 2</strong>, pero invertido:
+  <ul>
+    <li>'encontrado' inicia en 1? No: <strong>inicia en 1 (asumo que SÍ es la primera)</strong> y se pone 0 si encuentro una anterior.</li>
+    <li>Es un SÍ/NO por comparar el TRÍO (sid, year, sem) completo — no solo el sid (mismo estudiante en otro semestre SÍ cuenta).</li>
+    <li>Necesitas <strong>guardar todas las matrículas en un arreglo</strong> para poder "mirar atrás" (<code>k &lt; i</code>). Por eso no puedes procesar a medida que lees: primero guardas, después cuentas.</li>
+  </ul></div>
+<h3>Contadores 2D indexados por [año][semestre] (Tarea 3)</h3>
+<pre>uint32_t hPre[10][5] = {{0}};   // filas=año (2020..2029), columnas=semestre (1..4)
+uint32_t mPre[10][5] = {{0}};   // inicializar TODO en 0 con {{0}}
+// al contar:
+int yi = (int)(mat[i].year - 2020);   // traduce año a índice de fila (2020->0)
+int si = (int)mat[i].sem;             // semestre ya es 1..4 (uso [5] para caber)
+mPre[yi][si]++;                       // sumo 1 en la casilla [año][sem]
+// al imprimir: recorro filas y columnas, muestro solo las que tienen algo
+for (a = 0; a &lt; 10; a++)
+    for (s = 1; s &lt;= 4; s++)
+        if (hPre[a][s] || mPre[a][s] || ...)   // hay alguien
+            printf("%u  %u  ...", 2020 + a, s, ...);   // traduzco de vuelta</pre>
+<div class="trampa"><strong>No sumes al índice: traslada.</strong> <code>mat[i].year - 2020</code> convierte el dato (2024) a índice (4). Y al imprimir haces lo inverso: <code>2020 + a</code>. Nunca uses el año crudo como índice (<code>[2024]</code> explota el arreglo de 10).</div>
+<div class="trampa"><strong>Las tablas de categorías = "clasificar y contar".</strong> Estructura fija de cualquier conteo tabulado:
+  <ol>
+    <li>4 (o N) arreglos de contadores, todos en 0.</li>
+    <li>Por cada elemento: decide su categoría (<code>if/else if</code> sobre <code>mujer</code>/<code>posgr</code>).</li>
+    <li>Suma <code>++</code> SOLO en la casilla correcta (en su fila/columna).</li>
+    <li>Imprime solo las celdas que no están en 0.</li>
+  </ol></div>
+<div class="clave"><strong>¡Comentarios también se compilan!</strong> En el archivo <code>Yilmar_Galindo_tarea3.c</code> el comentario quedó roto:
+  <pre>// crear un arreglo ... su capacidad
+sera enrollCount*/                  // "sera" es código suelto -> error
+Matricula mat[enrollCount];          // "mat" queda dentro del comentario "roto"
+                                     // -> 'mat' undeclared</pre>
+  Un <code>/* */</code> mal cerrado (o un <code>//</code> que lo corta a la mitad) traga la línea siguiente como comentario o suelta código basura. Revisa siempre que cada <code>/*</code> tenga su <code>*/</code> y que la declaración quede FUERA.</div>
+
+<h2>18. Recordatorios finales para transcribir a mano</h2>
 <ul>
   <li><strong>Pregunta ante cada firma:</strong> ¿modifica? → puntero. ¿solo lee simple? → valor. ¿arreglo/string? → puntero. ¿struct que modifica? → puntero.</li>
   <li><strong>¿1 ó 2 estrellas?</strong> 2 estrellas (<code>**</code>) en la firma = hay que <code>(*inv)[i]</code> y además el main debe ver el cambio de puntero (realloc). De lo contrario, 1 estrella normal.</li>
@@ -556,6 +635,12 @@ fread(nombre,  sizeof(nombre), 1, f);     // arreglo/string: SIN &amp; (ya es di
   <li><strong>Binario:</strong> el encabezado se lee para saltar los bloques; <code>fread</code> avanza la flechita sola; el <code>for</code> solo cuenta vueltas.</li>
   <li><strong>Formato desconocido:</strong> míralo con <code>xxd</code>, busca el texto legible, ubica los números alrededor, y prueba con mini-programas desechables.</li>
   <li><strong>Flags:</strong> para preguntar UN bit usa <code>flags &amp; 0x80</code> (máscara), NUNCA <code>flags == 0x80</code>.</li>
+  <li><strong>Saltar bloques del binario:</strong> leer lo que guardas, <code>fseek(f, courseCount * 40, SEEK_CUR)</code> para lo que no (cursos = 40 bytes c/u).</li>
+  <li><strong>"Estudiantes DISTINTOS"</strong> = patrón 'esPrimera': asumir 1, mirar atrás (k &lt; i) comparando el trío, poner 0 si ya apareció, <code>continue</code> si no es primera. Guardar todo el bloque para poder mirar atrás.</li>
+  <li><strong>Contador 2D</strong> [año-2020][sem]: traslada dato→índice al guardar (<code>year-2020</code>) y al imprimir (<code>2020+a</code>). Nunca uses el año crudo como índice.</li>
+  <li><strong>Clasificar y contar</strong> = N arreglos en 0 + if/else de categoría + <code>++</code> en la casilla + imprimir solo celdas != 0.</li>
+  <li><strong>uint32_t</strong> se imprime con <code>%u</code>; promedio con <code>double</code> y cast, y siempre chequea <code>cantidad != 0</code> antes de dividir.</li>
+  <li><strong>Comentarios también se compilan:</strong> un <code>/*</code> sin cerrar traga líneas; un <code>//</code> que corta un bloque suelta código basura. Revisa el balance siempre.</li>
 </ul>
 </body>
 </html>
