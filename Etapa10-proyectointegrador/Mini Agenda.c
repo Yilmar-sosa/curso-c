@@ -22,37 +22,7 @@
 struct Alumno{
     char nombre[50];
     int edad;
-    int **notas;
-}
-void promedioIndividual(int **notas, int tam);
-void agregar (struct Alumno *Alu, int tam);
-void listar(struct Alumno *Alu, int tam);
-void guardarArchivo(struct Alumno *Alu, int tam);
-void cargarArchivo(struct Alumno *Alu, int tam);
-void promedioGrupo(struct Alumno *Alu, int tam);
-
-int main(){
-    int cantidad;
-    int longitudN;
-    
-    printf("     Agenda de alumnos\n\n");
-    
-    printf("¿Cuantos alumnos desea agregar?\n");
-    scanf("%d", &cantidad);
-    
-
-    int *Alumnos = (int*) malloc(cantidad * sizeof(int));
-    if(int Alumnos == NULL){
-        printf("No tienes tanta memoria\n");
-        return 0;  
-    
-    int **notas = (int**) malloc(longitudN * sizeof(int));
-    if(int notas == NULL);
-        printf("Memoria insuficiente");
-        return 0;
-    }
-    promedioIndividual(notas, longitudN);
-    return 0;
+    int **notas; //se crea como un array con doble puntero tipo entero ya que este miembro sera modificado dentro de una funcion 
 }
 //Funcion para calcular promedio de un array alojado dentro de una extructurar
 int promedioIndividual(int **notas, int tam){
@@ -73,6 +43,32 @@ int agregar(struct **Alumnos, int tam){
     }
     return Alumnos;
 }
+
+
+int main(){
+    int cantidad;
+    int longitudN;
+    
+    printf("     Agenda de alumnos\n\n");
+    
+    printf("¿Cuantos alumnos desea agregar?\n");
+    scanf("%d", &cantidad);
+    
+
+    int *Alumnos = (int*) malloc(cantidad * sizeof(int));//apunta a el arreglo Alumos de tipo entero y asignale memoria en bytes la capacidad resultante de cantidad * los bytes que ocupa un entero 
+    if(*Alumnos == NULL){//si Alumnos guarda el valor NULL
+        printf("No tienes tanta memoria\n");
+        return 0;  
+    }
+    int **notas = (int**) malloc(longitudN * sizeof(int)); //Creamos una variable que guarda ubicacion de un miembro de una struct y le asigna memomoria  con una nueva formula que calcula los bytes necesarios para este caso 
+    if(**notas == NULL){
+        printf("Memoria insuficiente");
+        return 0;
+    }
+    promedioIndividual(notas, longitudN);
+    return 0;
+}
+
 
 
 
