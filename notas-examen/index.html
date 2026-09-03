@@ -642,5 +642,57 @@ Matricula mat[enrollCount];          // "mat" queda dentro del comentario "roto"
   <li><strong>uint32_t</strong> se imprime con <code>%u</code>; promedio con <code>double</code> y cast, y siempre chequea <code>cantidad != 0</code> antes de dividir.</li>
   <li><strong>Comentarios también se compilan:</strong> un <code>/*</code> sin cerrar traga líneas; un <code>//</code> que corta un bloque suelta código basura. Revisa el balance siempre.</li>
 </ul>
+
+<h2>19. Structs y arreglos de structs (lo nuevo del taller T2/T3)</h2>
+<h3>typedef struct: la sintaxis que SIEMPRE falla si se escribe al revés</h3>
+<pre>// El ORDEN correcto: primero "typedef struct", el nombre va AL FINAL.
+typedef struct {
+    uint32_t id;
+    unsigned char flags;
+    char nombre[24];
+    uint32_t edad;
+} Estudiante;          // aqui va el nombre del tipo, al final
+
+// MAL (invertido - da "expected ';' before 'struct'" y rompe TODO):
+typedef Estudiante struct { ... };</pre>
+<div class="trampa"><strong>C es sensible a mayúsculas:</strong> <code>Curso</code> (declarado) vs <code>curso</code> (usado) son tipos DISTINTOS → "unknown type name 'Curso'" y "did you mean 'curso'". El nombre del <code>}Nombre;</code> debe ser EXACTO al que usas al declarar. Mejores prácticas: un tipo por regla, y escribe <code>Estudiante</code>/<code>Curso</code> igual en todo el código.</div>
+
+<h3>Arreglo de structs: para GUARDAR y BUSCAR después</h3>
+<pre>Estudiante estudiantes[studentCount];   // guardo TODOS hasta studentCount a la vez
+// al leer: cada fread llena un campo de UN estudiante distinto del arreglo
+fread(&amp;estudiantes[i].id,    sizeof(uint32_t), 1, f);
+fread(&amp;estudiantes[i].flags, sizeof(unsigned char), 1, f);
+fread(estudiantes[i].nombre, 23, 1, f);           // arreglo -> SIN &amp;
+estudiantes[i].nombre[23] = '\0';
+fread(&amp;estudiantes[i].edad,  sizeof(uint32_t), 1, f);
+// luego BUSCO por id con un for + if:
+for (j = 0; j &lt; studentCount; j++)
+    if (estudiantes[j].id == sid) { ... break; }</pre>
+<div class="clave"><strong>¿Variables sueltas o arreglo de structs?</strong>
+  <ul>
+    <li>Tarea 1 (leer y descartar) → variables sueltas alcanzan.</li>
+    <li>Tarea 2/3 (leer, guardar y BUSCAR después) → <strong>arreglo de structs</strong>. El punto de ir leyendo adelante no puede "volver atrás" al bloque de estudiantes, así que guardas las edades a la mano antes de leer las matrículas.</li>
+  </ul>
+  Regla que resume todo: <strong>"guardo primero lo que voy a necesitar después"</strong>.</div>
+<h3>Leer 23 bytes de nombre en un arreglo que declaraste de 24</h3>
+<pre>char nombre[24];                 // 23 letras + 1 para el '\0' final
+fread(nombre, 23, 1, f);         // leo 23, NO sizeof(nombre) (=24) ni 24
+nombre[23] = '\0';               // SIEMPRE pongo el fin de cadena yo mismo
+// Si lees 24 con fread(nombre, sizeof(nombre), 1, f), robas 1 byte del siguiente
+// campo y desalineas TODO el registro (el clasico "ake Pierce" corrido).</pre>
+<div class="clave"><strong>Diferencias de tipos:</strong> <code>uint32_t</code> = alias de <code>unsigned int</code> (32 bits). Nunca escribas <code>uint32_t int</code> (dos tipos en uno → error). Para sumar edades usa <code>uint64_t</code> (margen anti-desborde); para contar <code>uint32_t</code>. En binarios id/cuenta son <code>%u</code>.</div>
+<h3>La leccion de los bugs de llaves (el "solo cuenta 1" / "end of input")</h3>
+<div class="trampa"><strong>Un <code>}</code> mal puesto reordena el alcance y rompe todo:</strong>
+  <ul>
+    <li>Si cierras el <code>for</code> demasiado pronto → las variables del for (<code>i</code>, <code>esPrimera</code>) quedan FUERA → "undeclared", y <code>continue</code> fuera de un loop da error.</li>
+    <li>Si te FALTA una llave al final → "expected declaration or statement at end of input".</li>
+    <li>Síntoma de llave mal: <em>"solo cuenta 1 estudiante"</em> — el ciclo se corta en la primera coincidencia porque el cuerpo correcto no quedó dentro del for.</li>
+  </ul>
+  Antídoto: <strong>cuenta las llaves</strong> o sangra bien. Estructura segura de doble bucle:
+  <pre>for (i...) {                 // bucle principal
+    for (k...) { ... }        // bucle interno (se cierra aqui)
+    ... cuerpo del principal ...
+}                             // cierra SOLO aqui el principal</pre></div>
+<div class="clave"><strong>memoria dinámica (malloc) NO era obligatoria:</strong> como el tamaño se lee del encabezado (<code>studentCount</code>, <code>enrollCount</code>), el arreglo de tamaño variable <code>Estudiante v[contador]</code> basta y es más simple (sin <code>free</code>, sin riesgo de fuga). malloc es un ALTERNATIVO válido, no un requisito. No te confundas si compañeros lo usan.</div>
 </body>
 </html>
