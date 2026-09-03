@@ -13,7 +13,7 @@ typedef struct {
 // Estructura de una matricula guardada.
 typedef struct {
     uint32_t EstudianteId;  
-    uint32_t Año;  
+    uint32_t anio;  
     uint32_t Semestre;   
 } Matricula;
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]){
         uint32_t cid;   /* courseID: leo para avanzar pero no lo uso */
         fread(&mat[i].EstudianteId,  sizeof(mat[i].EstudianteId),  1, f);
         fread(&cid,         sizeof(cid),         1, f);
-        fread(&mat[i].Año, sizeof(mat[i].Año), 1, f);
+        fread(&mat[i].anio, sizeof(mat[i].anio), 1, f);
         fread(&mat[i].Semestre,  sizeof(mat[i].Semestre),  1, f);
     }
 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]){
         int esPrimera = 1;           /* supongo que es la primera */
         for(uint32_t k = 0; k < i; k++){
             if(mat[k].EstudianteId == mat[i].EstudianteId &&
-               mat[k].Año == mat[i].Año &&
+               mat[k].anio == mat[i].anio &&
                mat[k].Semestre  == mat[i].Semestre){
                 esPrimera = 0;     
                 break;
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]){
         }
 
         //Sumarlo a su categoria. 
-        int yi = (int)(mat[i].Año - 2020);   
+        int yi = (int)(mat[i].anio - 2020);   
         int si = (int)mat[i].Semestre;              
 
         int mujer = (gf & 0x80) ? 1 : 0;   /* F: 1 = femenino */

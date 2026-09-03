@@ -65,12 +65,12 @@ int main(int argc, char *argv[]){
     uint32_t cantidad = 0;
 
     //variables seccion de matriculas
-    uint32_t IdEstudiante, IdCurso, Año, Semestre;
+    uint32_t IdEstudiante, IdCurso, anio, Semestre;
 
     for(uint32_t i = 0; i < enrollCount; i++){
         fread(&IdEstudiante, sizeof(IdEstudiante), 1, f);        
         fread(&IdCurso, sizeof(IdCurso), 1, f);
-        fread(&Año, sizeof(Año), 1, f);
+        fread(&anio, sizeof(anio), 1, f);
         fread(&Semestre, sizeof(Semestre), 1, f);
         
         //si el id curso es diferente al curso buscado saltarlo
