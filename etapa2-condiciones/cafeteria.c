@@ -32,8 +32,8 @@
         printf("CAFETERIA TERMINAL\nEscriba el numero de su petición\n\n1) Cafe\n2) Te\n3) Chocolate\n");
         scanf("%d", &opcion);
         
-        switch (opcion){
-            case 1:
+        switch (opcion){//interruptor que activara un caso dependiendo el valor de la opcion
+            case 1://si es uno ejecuta las siguientes instruccion si no lo es buscara en los otros casos hasta que lo encuentre y cuando lo encuentre saldra
             printf("Preparando un cafe\n");
             total = 25;
             break;

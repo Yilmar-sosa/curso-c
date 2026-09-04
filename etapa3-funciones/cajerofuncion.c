@@ -1,17 +1,17 @@
 #include <stdio.h>
 
-     int pedirPin(void);
-     void mostrarMenu(void);
-     void consultarSaldo(int saldoActual);
-     int depositar(int saldoActual);
+     int pedirPin(void); //nombrar funcion que retornara un dato de tipo int tendra un nombre y no reciber parametros
+     void mostrarMenu(void);//funcion no retorna ni recibe parametros
+     void consultarSaldo(int saldoActual);//no retorna, recibe un parametro de tipo entero
+     int depositar(int saldoActual);//retorna un int, recibe un int como parametro 
      int retirar(int saldoActual);
 
      int main(){
         
-     int opcion = 0;
+     int opcion = 0;//crea variable int opcion que guardara 0
      int saldo = 1000;
 
-     pedirPin();
+     pedirPin();//hacemos el llamado a la funcion pedir pin
      
      do{
         mostrarMenu();
@@ -43,7 +43,7 @@
     }
     
     //FUNCION PARA PEDIR Y VERIFICAR pedirPin
-    int pedirPin(){
+    int pedirPin(){//funcion retorna int llamada pedirPin no necesita parametro dentro se crearan las instrucciones que contendra esa funcion
         int pinCorrecto = 4321;
         int pin;
         int intentos = 0;

@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
        
     fseek(f, (long)courseCount * 40, SEEK_CUR);
 
-    //crear un arreglo de la struct Matricula la llamamos mat y su capacidad
+    /*crear un arreglo de la struct Matricula la llamamos mat y su capacidad
     sera enrollCount*/
     Matricula mat[enrollCount];
 
