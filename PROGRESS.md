@@ -213,3 +213,35 @@ Repositorio: https://github.com/Yilmar-sosa/curso-c
   la guía queda como referencia. Lección pendiente para tareas 2 y 3: los otros bloques del binario
   (cursos/matrículas) — estructura distinta, mismo método. Faltan los enunciados de tareas 2 y 3.
 - Pendiente: opcional commit+push de hoy (guía + PROGRESS + chuleta).
+
+## SESIÓN 2026-09-03 — TAREAS 2-3 TALLER + PDF DE REPASO COMENTADO
+- Git sincronizado sin perder NINGÚN comentario: commit local bbe9239 (comentarios de repaso
+  etapa 1-3 + renombrado tareas a Yilmar_Galindo_*) + pull merge (trajo comentarios institución:
+  nombre.c, punteros.c, estudiante.c, reporteprueba.c, dinamico.c, malloc/free.c + chuleta sección 19).
+  Merge limpio (archivos distintos), push finalizado. Se conservaron TODOS los comentarios.
+- TAREAS 2 y 3 del taller: corregido el problema de la letra ñ en nombres de variable (Año -> anio)
+  en Yilmar_Galindo_tarea2.c y _tarea3.c. Compilan con -Wall -Wextra. Tarea2 = promedio por curso
+  (filtrar con continue); Tarea3 = tabla estudiantes distintos por semestre (patrón esPrimera,
+  contadores 2D [año-2020][sem]).
+- TAREA 3 tiene UN comentario roto aún en el archivo original (la línea "sera enrollCount*/" suelta
+  que rompía la compilación). En Yilmar_Galindo_tarea3.c quedó como /*crear...sera enrollCount*/ en
+  una sola línea (OK). El duplicado primernombre_apellido_tarea3.c y Yilmar_Galindo_tarea3.c son
+  casi idénticos (solo difieren en esa línea de comentario).
+- PDF DE REPASO: creado carpeta repaso-comentado/ con TODOS los programas funcionales comentados
+  línea por línea al estilo del estudiante (// en español). Se conservaron sus comentarios y se
+  añadió el mismo estilo a los que no lo tenían (hola, inspectorrecomendado, lanzamiento, maximo,
+  segundos, pin, tabla, duplicar, tablamultiplicar, Burbuja, notas, factorizarNotas, guardar,
+  dinamico).
+- FUNCIONALES verificados con gcc -Wall -Wextra (compilan): 29 archivos. Excluidos (NO compilan):
+  maxmin.c (vacío), funciones.c (bug num1 no declarado, return sin valor), Mini Agenda.c (errores
+  struct/llaves), leer.c (falta # en include), nombre.c (redefinition de main, 2 programas en 1),
+  cajero.c (case con declaraciones), examenpueba1.c (usa coderbyteInternalStdinFunction inexistente),
+  comparacion.c (guía visual no compila), tarea1 (fopen nombre fijo sample_data.bin).
+- GENERADO: repaso-comentado/repaso_comentado.html (12 secciones de etapa, 29 programas). Se abre
+  en el navegador para imprimir como PDF (igual que la chuleta). Script generar.py genera el HTML
+  desde los .c comentados.
+- PENDIENTE PARA IMPRIMIR: el estudiante debe dar a "Imprimir > Guardar como PDF" en el navegador
+  para obtener el archivo PDF final del repaso.
+- Nota: algunos archivos "funcionales" tienen lógica dudosa (tablamultiplicar llama numero() 3 veces
+  -> imprime 3 tablas; tarea1 usa fopen fixed) — revisar si el estudiante los considera correctos.
+

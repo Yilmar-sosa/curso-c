@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repaso comentado de C - Todos los programas</title>
+<style>
+  :root { --tinta:#1a1a2e; --acento:#0f3460; --fondo:#fff; --plomo:#f4f4f8; }
+  * { box-sizing: border-box; }
+  body { font-family:"Segoe UI",Arial,sans-serif; color:var(--tinta); max-width:900px; margin:0 auto; padding:24px 28px 60px; font-size:14px; line-height:1.4; }
+  h1 { font-size:24px; color:var(--acento); text-transform:uppercase; letter-spacing:1px; margin:0 0 4px; }
+  .subtitulo { color:#555; font-size:13px; margin:0 0 18px; }
+  h2 { font-size:17px; margin:28px 0 8px; padding:6px 10px; background:var(--acento); color:#fff; border-radius:6px; break-after:avoid; }
+  h3 { font-size:14px; margin:16px 0 4px; color:var(--acento); }
+  code { font-family:Consolas,"Courier New",monospace; background:#eef; padding:1px 4px; border-radius:3px; font-size:12.5px; }
+  pre { font-family:Consolas,"Courier New",monospace; background:#f7f7fb; border-left:4px solid var(--acento); padding:10px 12px; overflow-x:auto; font-size:12px; border-radius:4px; line-height:1.45; white-space:pre; }
+  table { width:100%; border-collapse:collapse; margin:8px 0 14px; font-size:12.5px; }
+  th,td { border:1px solid #ccd; padding:5px 7px; text-align:left; vertical-align:top; }
+  th { background:var(--plomo); }
+  @media print { body { max-width:100%; padding:10px; font-size:11px; } pre { font-size:10px; } h2 { break-after:avoid; } }
+</style>
+</head>
+<body>
+<h1>Repaso comentado de C</h1>
+<p class="subtitulo">Todos los programas funcionales del curso, comentados linea por linea para el examen · Yilmar · AvanzaTec</p>
+<h2>ETAPA 1 - Fundamentos, variables y operadores</h2>
+<h3>hola.c</h3>
+<pre>#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    printf(&quot;Hola mundo\n&quot;);
+
+    return 0;
+}</pre>
+<h3>calculadora.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+int main (){//Iniciamos el programa en c con la funcion madre.
+    int num1, num2; //crea dos variables de tipo entero a las que no se les asignara nada por ahora
+printf(&quot;Digita tu primer numero\n&quot;); //imprime el texto entre comillas y has un salto de linea
+scanf(&quot;%d&quot;, &amp;num1);//scanea un dato de tipo entero que se encuentra en la direccion de memoria num1
+printf(&quot;Digita tu segundo numero\n&quot;);//imprime el texto entre comillas y finaliza con un salto de linea
+scanf(&quot;%d&quot;, &amp;num2);//recibe una entrada de un dato tipo entero de la variable de direccion num2
+int sum = num1 + num2; //crea una variable llamada sum de tipo entero que guarda la suma de dos variables
+int rest = num1 - num2;//crea una variable de tipo entero llamada rest y asignale la resta de dos variables
+int Mult = num1 * num2;//crea una variable de tipo entero llamada mult que recibe como valor el resultado de una multiplicacion
+float Div = (float)num1 / num2;//crea una variable de tipo flotante que almacenara la divicion de una variable int convertida a float y divida en una variable int
+int resto = num1 % num2;//creo una variable de tipo entero que guardara una operacion de modulo
+
+
+printf(&quot;Suma: %d\nResta: %d\nMultiplicacion: %d\nDivision: %.2f\nModulo: %d&quot;,sum, rest, Mult, Div, resto);
+//imprime el texto entre comillas y recibe los datos segun su tipo y orden de las variables
+return 0;
+//El programa termina bien
+}</pre>
+<h3>ficha.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye libreria
+int main(){ //funcion madre de los programas
+char nombre[20]; //arreglo tipo char con 20 indices
+int edad; //define variable tipo entero
+float estatura;//define variable tipo flotante
+printf(&quot;Como te llamas?\n&quot;);//imprime lo siguiente
+scanf(&quot;%s&quot;, nombre);//recibe un str y guardalo en la direccion de memoria de nombre
+printf(&quot;Cuantos anhos tienes?\n&quot;);//imprime el texto
+scanf(&quot;%d&quot;, &amp;edad);//recibe un tipo de dato entero y almacenalo en la varible edad mediante su direccion
+printf(&quot;Cual es tu estatura?\n&quot;);//imprime el texto
+scanf(&quot;%f&quot;, &amp;estatura);//recibe por pantalla un dato de tipo flotante y almacenalo en la direccion de memoria estatura
+
+printf(&quot;Nombre: %s\nAnhos: %d\nEstatura: %.2f&quot;, nombre, edad, estatura);//imprime el texto junto con los datos entregados de las siguientes variables en su orden corespondiente
+return 0;
+//todo termino bien
+}</pre>
+<h3>inspector.c</h3>
+<pre>#include &lt;stdio.h&gt;
+int main(){
+    int num;
+    printf(&quot;Digite un numero: \n&quot;);
+    scanf(&quot;%d&quot;, &amp;num);
+
+    if(num % 2 == 0 &amp;&amp; num != 0){//si el reciduo de num dividido en 2 es igual a 0 y su vez num es diferente de 0 entonces
+        printf(&quot;Paridad: Par\n&quot;);//imprime Paridad: par
+
+        //evaluaremos una condicion interna
+        if(num &gt; 0){//si num es mayor a 0 entonces
+            printf(&quot;signo: Positivo\n&quot;);//imprime singo positivo
+        }
+        else{//sino
+            printf(&quot;signo: Negativo\n&quot;);//imprime
+        }
+    }
+    else if(num % 2!= 0){// si la  condicion externa no se cumple revisa si esta operacion da un resultado diferente a  0 y si es asi
+        printf(&quot;Paridad: impar\n&quot;);//imprime
+        if(num &lt; 0){
+            printf(&quot;signo: Negativo\n&quot;);
+        }
+        else{
+            printf(&quot;signo: positivo\n&quot;);
+        }
+        }
+    else{
+        printf(&quot;NUMERO 0&quot;);
+    }
+    return 0;
+    //termina el programa bien 
+    }</pre>
+<h3>inspectorrecomendado.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+
+int main() { //funcion madre de los programas
+    int num; //crea una variable de tipo entero para guardar el numero que digita el usuario
+
+    printf(&quot;Digite un numero: &quot;); //imprime el mensaje pidiendo el numero
+    scanf(&quot;%d&quot;, &amp;num); //recibe un dato de tipo entero y guardalo en la direccion de memoria num
+
+    if (num == 0) { //si el numero es igual a 0 entonces
+        printf(&quot;El numero es cero\n&quot;); //imprime que el numero es cero
+        return 0; //termina el programa bien
+    }
+
+    if (num % 2 == 0) { //si el residuo de num dividido en 2 es igual a 0 entonces
+        printf(&quot;Paridad: Par\n&quot;); //imprime que es par
+    } else { //si no
+        printf(&quot;Paridad: Impar\n&quot;); //imprime que es impar
+    }
+
+    if (num &gt; 0) { //si num es mayor a 0 entonces
+        printf(&quot;Signo: Positivo\n&quot;); //imprime que el signo es positivo
+    } else { //si no
+        printf(&quot;Signo: Negativo\n&quot;); //imprime que el signo es negativo
+    }
+
+    return 0; //el programa termina bien
+}</pre>
+<h3>maximo.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+int main(){ //funcion madre de los programas
+    int num1, num2, num3; //crea tres variables de tipo entero para guardar los tres numeros del usuario
+    printf(&quot;Digita un numero: \n&quot;); //imprime el mensaje pidiendo el primer numero
+    scanf(&quot;%d&quot;, &amp;num1); //recibe un dato de tipo entero y guardalo en la direccion de memoria num1
+    printf(&quot;Digita un segundo numero: \n&quot;); //imprime el mensaje pidiendo el segundo numero
+    scanf(&quot;%d&quot;, &amp;num2); //recibe un dato de tipo entero y guardalo en la direccion de memoria num2
+    printf(&quot;Digita un tercer numero: \n&quot;); //imprime el mensaje pidiendo el tercer numero
+    scanf(&quot;%d&quot;, &amp;num3); //recibe un dato de tipo entero y guardalo en la direccion de memoria num3
+
+    if(num1 &gt; num2 &amp;&amp; num1 &gt; num3){ //si num1 es mayor a num2 Y a la vez num1 es mayor a num3 entonces
+        printf(&quot;El numero %d es el numero mayor&quot;, num1); //imprime que num1 es el mayor
+    }
+    else if(num2 &gt; num1 &amp;&amp; num2 &gt; num3){ //si la anterior no se cumple y num2 es mayor a num1 Y a la vez num2 es mayor a num3 entonces
+        printf(&quot;El numero %d es el numero mayor&quot;, num2); //imprime que num2 es el mayor
+
+        }
+    else if(num1 == num2 &amp;&amp; num2 &gt;= num3){ //si num1 es igual a num2 y num2 es mayor o igual a num3 entonces
+        printf(&quot;El numero %d es el numero mayor&quot;, num1); //imprime que num1 es el mayor
+    }
+    else{ //si ninguna condicion se cumple entonces
+            printf(&quot;El numero %d es el numero mayor&quot;, num3); //imprime que num3 es el mayor
+        }
+    return 0; //el programa termina bien
+    }</pre>
+<h3>lanzamiento.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+int main(){ //funcion madre de los programas
+    int num; //crea una variable de tipo entero para guardar el numero que digita el usuario
+    printf(&quot;Digita un numero\n&quot;); //imprime el mensaje pidiendo el numero
+    scanf(&quot;%d&quot;, &amp;num); //recibe un dato de tipo entero y guardalo en la direccion de memoria num
+    printf(&quot;El cohete cuenta...\n&quot;); //imprime el texto del conteo
+    int i = num; //crea una variable i de tipo entero que guarda el valor de num
+    while(i &gt; 0){ //mientras i sea mayor a 0 se repetira las instrucciones internas
+        printf(&quot;%d\n&quot;, i); //imprime el valor de i en cada vuelta
+        i--; //disminuye 1 a i al finalizar cada vuelta
+    }
+    if(num &gt; 0){ //si num es mayor a 0 entonces
+    printf(&quot;Despegue!.&quot;); //imprime despegue
+    }
+    else{ //si no
+        printf(&quot;Lo sentimos un cohete no puede despegar sin pre-conteo :(&quot;); //imprime el mensaje de error
+    }
+    return 0; //el programa termina bien
+    
+    }</pre>
+<h3>segundos.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+int main(){ //funcion madre de los programas
+    int segundosTotales, restante; //crea dos variables de tipo entero para los segundos y el sobrante
+
+    printf(&quot;Digite sus segundos\n&quot;); //imprime el mensaje pidiendo los segundos
+    scanf(&quot;%d&quot;, &amp;segundosTotales); //recibe un dato de tipo entero y guardalo en la direccion de memoria segundosTotales
+    //Cada unidad equivale a un segundo
+    int horas = segundosTotales / 3600; //horas sera igual a la division de los segundos entre 3600 (un minuto son 60s, una hora 3600s)
+    restante = segundosTotales % 3600; //restante guarda el sobrante de esa division
+    int minutos = restante / 60; //minutos sera igual al sobrante dividido en 60
+    restante = restante % 60; //restante guarda el nuevo sobrante
+    int segundos = restante; //los segundos finales son el sobrante
+       printf(&quot;Horas: %d\nMinutos: %d\nSegundos: %d&quot;, horas, minutos, segundos); //imprime el resultado de las conversiones
+    return 0; //el programa termina bien
+}</pre>
+<h3>segundosbucle.c</h3>
+<pre>#include &lt;stdio.h&gt;
+int main(){
+    int segundosTotales;
+    //Cada unidad equivale a un segundo
+    int segundoEnSegundos = 1;
+    int minutosEnSegundos = 60;
+    int horaEnSEgundos = 60 * 60;
+    
+    printf(&quot;digita los segundos que quieres convertir: \n&quot;);
+    scanf(&quot;%d&quot;, &amp;segundosTotales);
+    int sobrante = segundosTotales;
+    
+    
+    //unidades reales de tiempo (conversion de segundos a unidades)
+      int horas, minutos, segundos;
+    
+   while (segundosTotales &gt; 0){ //mientras seguntosTotales sea mayor a 0 se repetira las instrucciones internas
+    if(sobrante &gt;=horaEnSEgundos){//si sobrante es mayor 0 igual a horas entonces
+    horas = segundosTotales / horaEnSEgundos;//horas sera igual a la division de estas dos variables
+    sobrante = segundosTotales % horaEnSEgundos;//la variable sobrante recibira el valor de la operacion matematica de estas dos variables
+    printf(&quot;%d&quot;, sobrante);//imprime la variable sobrante 
+    }
+    else if(sobrante &gt;= minutosEnSegundos){//si la anterior condicion no se cumple revisamos esta y si se cumple entonces hacemos los siguiente
+        minutos = segundosTotales / minutosEnSegundos;//guardamos esta division en la variable minutos
+        sobrante = segundosTotales % minutosEnSegundos;//guardamos el resultado de una operacion de modulo en sobrante
+    }
+    else if(sobrante &gt;= segundoEnSegundos){//si la anterior tampoco se cumple revisamos si esta si se cumple y ejecutamos sus instrucciones internas
+        segundos = segundosTotales / segundoEnSegundos;
+        sobrante = segundosTotales % segundoEnSegundos;
+    }
+    printf(&quot;Horas: %d\nMinutos: %d\nSegundos: %d&quot;, horas, minutos, segundos);
+    return 0;
+}
+}</pre>
+<h2>ETAPA 2 - Condicionales y ciclos</h2>
+<h3>adivina.c</h3>
+<pre>#include &lt;stdio.h&gt;
+int main(){
+    int secreto = 42;
+    int intento;
+    int intentosTotales = 0;
+    do{//ejecuta estas instrucciones al menos una vez
+        printf(&quot;Adivina el numero\n&quot;);
+        scanf(&quot;%d&quot;, &amp;intento);
+        if( intento &lt; secreto){
+            printf(&quot;Muy abajo\nIntenta nuevamente\n&quot;);
+        }
+        else if( intento &gt; secreto){
+            printf(&quot;Muy arriba\nIntenta nuevamente\n&quot;);
+        }
+        intentosTotales ++;
+    } while(intento != secreto);//si esta condicion se cumple ejecuta las instruccines anteriores ciclicamente hasta que deje de cumplir la condicion
+    printf(&quot;Felicidades adivinaste el numero despues de %d intentos&quot;, intentosTotales);
+    return 0;
+}</pre>
+<h3>cafeteria.c</h3>
+<pre>/*🏋️ Ejercicio 2: Cafetería La Terminal                                          
+                                                                                    
+     Crea cafeteria.c en etapa2-condiciones/.                                       
+                                                                                    
+     Parte A:                                                                       
+                                                                                    
+     1. Imprime el menú:                                                            
+                                                                                    
+     --- Cafeteria La Terminal ---                                                  
+     1) Cafe                                                                        
+     2) Te                                                                          
+     3) Chocolate                                                                   
+     Elige una opcion:                                                              
+                                                                                    
+     2. Lee la opción con scanf.                                                    
+     3. Con switch: cada opción imprime &quot;Preparando tu cafe&quot; (etc.). Opción         
+        inválida → &quot;No tenemos esa opcion&quot; vía default. Todos los case con su       
+        break.                                                                      
+                                                                                    
+     Parte B: cada bebida tiene precio (café $25, té $18, chocolate $30). Declara   
+     una variable `total` antes del switch, asígnale el precio dentro de cada       
+     `case`, y después del switch imprime `&quot;Total a pagar: $%d\n&quot;`. Fíjate: el      
+     switch no solo sirve para imprimir — también puede preparar datos para         
+     usarlos fuera.                                                                 
+                                                                                    
+     Predice primero: si escribo 7, ¿qué camino sigue tu programa? Y ya sabes...    
+     el \n del último mensaje. 😄   */
+     #include &lt;stdio.h&gt;
+     int main(){
+        int opcion;
+        int total = 0;
+        printf(&quot;CAFETERIA TERMINAL\nEscriba el numero de su petición\n\n1) Cafe\n2) Te\n3) Chocolate\n&quot;);
+        scanf(&quot;%d&quot;, &amp;opcion);
+        
+        switch (opcion){//interruptor que activara un caso dependiendo el valor de la opcion
+            case 1://si es uno ejecuta las siguientes instruccion si no lo es buscara en los otros casos hasta que lo encuentre y cuando lo encuentre saldra
+            printf(&quot;Preparando un cafe\n&quot;);
+            total = 25;
+            break;
+            
+            case 2:
+            printf(&quot;Preparando un Te\n&quot;);
+            total = 18;
+            break;
+
+            case 3:
+            printf(&quot;Preparando un Chocolate\n&quot;);
+            total = 30;
+            break;
+
+            default:
+            printf(&quot;No tenemos esa opcion\n&quot;);
+            return 0;
+        
+        }
+
+        printf(&quot;Total a pagar: $%d\n&quot;, total);
+        return 0;
+            
+    
+     }
+    </pre>
+<h3>pin.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+int main(){ //funcion madre de los programas
+    int pinCorrecto = 4321; //crea la variable que guarda el pin correcto (4 digitos)
+    int pin; //crea la variable que guardara el pin que digita el usuario
+    int intentos = 0; //crea un contador de intentos con valor inicial 0
+    do{ //ejecuta estas instrucciones al menos una vez
+        printf(&quot;Ingresa tu pin\n&quot;); //imprime el mensaje pidiendo el pin
+        scanf(&quot;%d&quot;, &amp;pin); //recibe un dato de tipo entero y guardalo en la direccion de memoria pin
+        if(pin &lt; 1000 || pin &gt; 9999 ){ //si el pin es menor a 1000 O es mayor a 9999 entonces (no tiene 4 digitos)
+            printf(&quot;Este numero no es valido, no contiene 4 digitos\n&quot;); //imprime el mensaje de error
+        }
+        else if(pin != pinCorrecto){ //si el pin es diferente al pin correcto entonces
+            printf(&quot;Acceso denegado\n&quot;); //imprime que el acceso fue denegado
+            intentos ++; //aumenta 1 al contador de intentos
+        }
+
+
+    }while(!(pin == pinCorrecto)); //repite mientras el pin sea diferente al pin correcto (el ! invierte la condicion)
+
+    intentos ++; //aumenta 1 al contador porque el intento final correcto tambien cuenta
+    printf(&quot;Acceso concedido\nHizo un numero total de intentos %d\n&quot;, intentos); //imprime el acceso concedido y el numero de intentos
+    return 0; //el programa termina bien
+}</pre>
+<h3>tabla.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+int main(){ //funcion madre de los programas
+    int num; //crea la variable que guardara el numero del cual se hara la tabla
+    printf(&quot;Escribe el numero de la tabla de multiplicar que deseas\n&quot;); //imprime el mensaje pidiendo el numero
+    scanf(&quot;%d&quot;, &amp;num); //recibe un dato de tipo entero y guardalo en la direccion de memoria num
+
+    for(int i = 1; i &lt; 11; i++){ //el contador i inicia en 1, se repite mientras i sea menor a 11 (del 1 al 10), y aumenta 1 por vuelta
+    int multiplicacion = num * i; //multiplicacion guarda el resultado de num por i
+    printf(&quot;%d x %d = %d\n&quot;, num, i, multiplicacion); //imprime la multiplicacion con su resultado
+    }
+    return 0; //el programa termina bien
+}</pre>
+<h2>ETAPA 3 - Funciones</h2>
+<h3>cajerofuncion.c</h3>
+<pre>#include &lt;stdio.h&gt;
+
+     int pedirPin(void); //nombrar funcion que retornara un dato de tipo int tendra un nombre y no reciber parametros
+     void mostrarMenu(void);//funcion no retorna ni recibe parametros
+     void consultarSaldo(int saldoActual);//no retorna, recibe un parametro de tipo entero
+     int depositar(int saldoActual);//retorna un int, recibe un int como parametro 
+     int retirar(int saldoActual);
+
+     int main(){
+        
+     int opcion = 0;//crea variable int opcion que guardara 0
+     int saldo = 1000;
+
+     pedirPin();//hacemos el llamado a la funcion pedir pin
+     
+     do{
+        mostrarMenu();
+        scanf(&quot;%d&quot;, &amp;opcion);
+        
+        switch(opcion){
+            case 1:
+            consultarSaldo(saldo);
+            break;
+
+            case 2:
+            saldo = depositar(saldo);
+            
+            break;
+
+            case 3:
+            saldo = retirar(saldo); 
+            break;
+
+            default:
+                printf(&quot;Seleccion incorrecta\n&quot;);
+               
+            }
+
+     } while(!(opcion == 4));    
+      printf(&quot;Gracias por confiar en nosotros\nEsperamos verte pronto\n&quot;);
+
+        return 0;
+    }
+    
+    //FUNCION PARA PEDIR Y VERIFICAR pedirPin
+    int pedirPin(){//funcion retorna int llamada pedirPin no necesita parametro dentro se crearan las instrucciones que contendra esa funcion
+        int pinCorrecto = 4321;
+        int pin;
+        int intentos = 0;
+        do{
+            printf(&quot;Ingrese su PIN\n\n&quot;);
+            scanf(&quot;%d&quot;, &amp;pin);
+
+            if( pin &lt; 1000 || pin &gt; 9999){
+                printf(&quot;Error!! Su pin debe contener 4 digitos\n\n&quot;);
+            }
+            else if( pin != pinCorrecto){ 
+                printf(&quot;Acceso Denegado\nIntente nuevamente\n\n&quot;);
+                intentos ++;
+            }
+        }while(!(pin == pinCorrecto));
+        intentos ++;
+      
+      printf(&quot;Acceso concedido\n&quot;);
+      printf(&quot;Realizo %d intentos para poder acceder\n&quot;, intentos);
+      
+      return intentos;
+    }
+
+      //Funcion PARA MOSTRAR OPCIONES DEL CAJERO
+
+    void mostrarMenu(void){
+        printf(&quot;BIENVENIDO A SU CAJERO!!!\n\n¿Que desea hacer(seleccione un numero)?\n&quot;);
+        printf(&quot;CAEJERO\n1) Consultar saldo\n2) Depositar\n3) Retirar\n4) Salir\n&quot;);
+    }
+    
+    //FUCION QUE RETORNA EL SALDO
+    
+    void consultarSaldo(int saldoActual){ 
+        printf(&quot;Su saldo actual es: %d\n&quot;, saldoActual);
+    }
+
+    //Funcion QUE IMPRIME SALDO ACTUAL
+
+    int depositar(int saldoActual){
+        int monto;
+                printf(&quot;Ingrese el monto el que desea depositar\n&quot;);
+                scanf(&quot;%d&quot;, &amp;monto);
+
+                if(monto &lt;= 0){ 
+                    printf(&quot;Monto invalido\n\n&quot;);
+                }
+                else{
+                    saldoActual = saldoActual + monto;
+                    printf(&quot;Su nuevo saldo es %d\n&quot;, saldoActual);
+                }
+                    return saldoActual;
+                }
+
+    //Funcion Para retirar
+
+    int retirar(int saldoActual){
+        int retiro;
+                printf(&quot;¿Cuanto desea retirar?\n&quot;);
+                scanf(&quot;%d&quot;, &amp;retiro);
+
+                if(!(retiro &lt;= 0 || retiro &gt; saldoActual)){ 
+                saldoActual = saldoActual-retiro;
+                printf(&quot;Su nuevo saldo disponible es: $%d\n&quot;, saldoActual);
+                }
+                else{
+                printf(&quot;Monto invalido&quot;);
+    }
+    return saldoActual;
+}</pre>
+<h3>duplicar.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+
+void duplicar(int x); //prototipo: avisale al compilador que existe la funcion duplicar, no retorna y recibe un int
+
+int main() { //funcion madre de los programas
+    int n = 5; //crea la variable n de tipo entero con valor 5
+    duplicar(n); //llama a la funcion duplicar y le pasa el valor 5 (una fotocopia de n)
+    printf(&quot;Fuera de la funcion n vale: %d\n&quot;, n); //imprime el valor de n (sigue siendo 5 porque el cambio fue en la copia)
+    return 0; //el programa termina bien
+}
+
+void duplicar(int x) { //definicion de la funcion: no retorna y recibe un int (la copia x)
+    x = x * 2; //a la copia x asignale el doble de su valor
+    printf(&quot;Dentro de la funcion x vale: %d\n&quot;, x); //imprime el valor de la copia x (10)
+}</pre>
+<h3>tablamultiplicar.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+void numero(void); //prototipo: avisale al compilador que existe la funcion numero, no retorna y no recibe parametros
+
+int main(){ //funcion madre de los programas
+    numero(); //llama a la funcion numero (imprime la tabla)
+    numero(); //llama de nuevo la funcion (imprime otra tabla)
+    numero(); //llama una tercera vez (imprime otra tabla)
+    return 0; //el programa termina bien
+
+}
+void numero(void){ //definicion de la funcion: no retorna y no recibe parametros
+    int num; //crea la variable que guardara el numero del cual se hara la tabla
+    printf(&quot;cual es su numero\n\n&quot;); //imprime el mensaje pidiendo el numero
+    scanf(&quot;%d&quot;, &amp;num); //recibe un dato de tipo entero y guardalo en la direccion de memoria num
+    for (int i = 1; i &lt; 11; i++){ //el contador i inicia en 1, se repite mientras i sea menor a 11 (del 1 al 10), y aumenta 1 por vuelta
+         int resultado = num * i; //resultado guarda la multiplicacion de num por i
+    printf(&quot;%d x %d = %d\n&quot;, num, i, resultado); //imprime la multiplicacion con su resultado
+    }
+
+}</pre>
+<h2>ETAPA 4 - Arreglos</h2>
+<h3>notas.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+int main(){ //funcion madre de los programas
+    int notas[5]; //crea un arreglo de 5 enteros para guardar las notas
+    int suma = 0; //crea un acumulador de suma con valor inicial 0
+    float promedio = 0; //crea una variable flotante para el promedio
+    int i; //declara la variable i para el for
+    printf(&quot;Escribe tus notas para que podamos sacar tu promedio\n&quot;); //imprime el mensaje pidiendo las notas
+    for(i = 0; i &lt; 5; i++){ //el contador i inicia en 0, se repite mientras i sea menor a 5, y aumenta 1 por vuelta
+        scanf(&quot;%d&quot;, &amp;notas[i]); //recibe un dato entero y guardalo en la posicion i del arreglo
+        suma = suma + notas[i]; //suma acumula cada nota leida
+    }
+    printf(&quot;Nota 1: %d\n&quot;, notas[0]); //imprime la nota de la posicion 0
+    printf(&quot;Nota 2: %d\n&quot;, notas[1]); //imprime la nota de la posicion 1
+    printf(&quot;Nota 3: %d\n&quot;, notas[2]); //imprime la nota de la posicion 2
+    printf(&quot;Nota 4: %d\n&quot;, notas[3]); //imprime la nota de la posicion 3
+    printf(&quot;Nota 5: %d\n&quot;, notas[4]); //imprime la nota de la posicion 4
+    promedio = (float)suma / i; //promedio es la suma convertida a float dividida entre i (5 notas)
+    printf(&quot;Promedio: %.2f\n&quot;, promedio); //imprime el promedio con 2 decimales
+
+    int max = notas[0]; //el maximo empieza siendo la primera nota
+    for(int e = 1; e &lt; 5; e++){ //recorre desde la posicion 1 hasta la 4
+        if(notas[e] &gt; max){ //si la nota actual es mayor al maximo entonces
+            max = notas[e]; //el maximo se actualiza a esa nota
+        }
+    }
+    printf(&quot;La nota mayor es: %d\n&quot;, max); //imprime la nota mayor
+
+    int min = notas[0]; //el minimo empieza siendo la primera nota
+    for(int e = 1; e &lt; 5; e++){ //recorre desde la posicion 1 hasta la 4
+        if(notas[e] &lt; min){ //si la nota actual es menor al minimo entonces
+            min = notas[e]; //el minimo se actualiza a esa nota
+        }
+    }
+    printf(&quot;La nota menor es: %d\n&quot;, min); //imprime la nota menor
+
+    return 0; //el programa termina bien
+}</pre>
+<h3>factorizarNotas.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+void mostrarNotas(int notas[], int tamano); //prototipo: muestra las notas, recibe el arreglo y su tamanio
+float calcularPromedio(int notas[], int tamano); //prototipo: calcula el promedio, recibe el arreglo y su tamanio, devuelve float
+int encontrarMaximo(int notas[], int tamano); //prototipo: encuentra el maximo, devuelve int
+int encontrarMinimo(int notas[], int tamano); //prototipo: encuentra el minimo, devuelve int
+int main(){ //funcion madre de los programas
+    int notas[5]; //crea un arreglo de 5 enteros para guardar las notas
+    int tamano = sizeof(notas)/ sizeof(notas[1]); //tamano guarda cuantos elementos tiene el arreglo
+    
+    printf(&quot;Escribe tus notas para que podamos sacar tu promedio\n&quot;); //imprime el mensaje pidiendo las notas
+    for(int i = 0; i &lt; tamano; i++){ //el contador i inicia en 0, se repite mientras i sea menor a tamano, y aumenta 1 por vuelta
+     scanf(&quot;%d&quot;, &amp;notas[i]); //recibe un dato entero y guardalo en la posicion i del arreglo
+    }
+    mostrarNotas(notas, tamano); //llama a la funcion que muestra las notas
+    calcularPromedio(notas, tamano); //llama a la funcion que calcula el promedio
+    encontrarMaximo(notas, tamano); //llama a la funcion que encuentra el maximo
+    encontrarMinimo(notas, tamano); //llama a la funcion que encuentra el minimo
+   
+    return 0; //el programa termina bien
+}
+// FUNCION PARA MOSTRAR NOTAS
+void mostrarNotas(int notas[], int tamano){ //definicion: muestra las notas, recibe el arreglo y su tamanio, no retorna
+    int numerador = 1; //crea un contador que va numerando las notas
+    for(int i = 0; i &lt; tamano; i++){ //el contador i inicia en 0, se repite mientras i sea menor a tamano, y aumenta 1 por vuelta
+    printf(&quot;Nota %d: %d\n&quot;, numerador, notas[i]); //imprime el numero de la nota y su valor
+    numerador++; //aumenta 1 al numerador
+}
+}
+ 
+
+//FUNCION DE PROMEDIO
+float calcularPromedio(int notas[], int tamano){ //definicion: calcula el promedio, recibe el arreglo y su tamanio, devuelve float
+    int suma = 0; //crea un acumulador de suma con valor inicial 0
+    float promedio = 0; //crea la variable flotante para el promedio
+
+    for(int i = 0; i &lt; tamano; i++){ //el contador i inicia en 0, se repite mientras i sea menor a tamano, y aumenta 1 por vuelta
+        suma = suma + notas[i]; //suma acumula cada nota
+    }
+    promedio = (float)suma / tamano; //promedio es la suma convertida a float dividida entre tamano
+    printf(&quot;Promedio: %.2f\n&quot;, promedio); //imprime el promedio con 2 decimales
+   return promedio; //devuelve el promedio
+}
+//FUNCION PARA ENCONTRAR NUMERO MAXIMO
+int encontrarMaximo(int notas[], int tamano){ //definicion: encuentra el maximo, recibe el arreglo y su tamanio, devuelve int
+    int max = notas[0]; //el maximo empieza siendo la primera nota
+    for(int e = 1; e &lt; tamano; e++){ //recorre desde la posicion 1 hasta el final
+        if(notas[e] &gt; max){ //si la nota actual es mayor al maximo entonces
+            max = notas[e]; //el maximo se actualiza a esa nota
+        }
+    }
+    printf(&quot;La nota mayor es: %d\n&quot;, max); //imprime la nota mayor
+    return max; //devuelve el maximo
+}
+//FUNCION PARA ENCONTRAR MINIMO
+int encontrarMinimo(int notas[], int tamano){ //definicion: encuentra el minimo, recibe el arreglo y su tamanio, devuelve int
+    int min = notas[0]; //el minimo empieza siendo la primera nota
+        for(int e = 1; e &lt; tamano; e++){ //recorre desde la posicion 1 hasta el final
+            if(notas[e] &lt; min){ //si la nota actual es menor al minimo entonces
+                min = notas[e]; //el minimo se actualiza a esa nota
+            }
+    }
+    printf(&quot;La nota menor es: %d\n&quot;, min); //imprime la nota menor
+    return min; //devuelve el minimo
+}</pre>
+<h3>Burbuja.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+void ordenar(int numeros[], int tam); //prototipo: ordena los numeros, retorna void, recibe un arreglo y su tamanio
+void mostrar(int numeros[], int tam); //prototipo: muestra los numeros, retorna void, recibe un arreglo y su tamanio
+
+int main(){ //funcion madre de los programas
+    int numeros[5]; //crea un arreglo de 5 enteros para guardar los numeros
+    int tam = sizeof(numeros)/sizeof(numeros[0]); //tam guarda cuantos elementos tiene el arreglo (5 = bytes totales entre bytes de uno)
+
+    printf(&quot;Escribe los numeros que quieres ordenar\n&quot;); //imprime el mensaje pidiendo los numeros
+    for(int i = 0; i &lt; tam; i++){ //el contador i inicia en 0, se repite mientras i sea menor a tam, y aumenta 1 por vuelta
+        scanf(&quot;%d&quot;, &amp;numeros[i]); //recibe un dato entero y guardalo en la posicion i del arreglo
+    }
+    printf(&quot;Tus numeros son:\n\n&quot;); //imprime el encabezado
+    mostrar(numeros, tam); //llama a la funcion mostrar con los numeros y su tamanio
+    ordenar(numeros, tam); //llama a la funcion ordenar (bubble sort)
+    printf(&quot;Tus numeros ordenados de menor a mayor quedan asi:\n\n&quot;); //imprime el encabezado
+    mostrar(numeros, tam); //llama a la funcion mostrar con los numeros ya ordenados
+
+}
+//FUNCION BUBBLE SORT
+void ordenar(int numeros[], int tam){ //definicion: ordena el arreglo, no retorna, recibe el arreglo y su tamanio
+    for (int p = 0; p &lt; tam -1; p++){ //pasadas: repite mientras p sea menor a tam-1
+        for(int i = 0; i &lt; tam -1; i++){ //comparaciones: recorre el arreglo comparando de a pares
+            if(numeros[i] &gt; numeros[i+1]){ //si el de la izquierda es mayor que el de la derecha entonces
+                int temp = numeros[i]; //guardalo en una variable temporal
+                numeros [i] = numeros[i+1]; //el de la izquierda ahora vale el de la derecha
+                numeros[i+1] = temp; //el de la derecha ahora vale el temporal (se intercambiaron)
+            }
+        }
+    }
+}
+//FUNCION PARA MOSTRAR ARREGLOS
+void mostrar(int numeros[], int tam){ //definicion: muestra el arreglo, no retorna, recibe el arreglo y su tamanio
+    for(int i = 0; i &lt; tam; i++){ //el contador i inicia en 0, se repite mientras i sea menor a tam, y aumenta 1 por vuelta
+        printf(&quot;%d &quot;, numeros[i]); //imprime cada numero seguido de un espacio
+    }
+    printf(&quot;\n\n&quot;); //salta dos lineas al terminar
+}</pre>
+<h2>ETAPA 6 - Punteros</h2>
+<h3>punteros.c</h3>
+<pre>/*Nuevo ejercicio: intercambiar dos valores                                      
+                                                                                    
+     Objetivo: crear una función intercambiar que reciba dos punteros e             
+     intercambie sus valores.                                                       
+                                                                                    
+     void intercambiar(int *a, int *b){                                             
+         int temp = *a;                                                             
+         *a = *b;                                                                   
+         *b = temp;                                                                 
+     }                                                                              
+                                                                                    
+     En main:                                                                       
+                                                                                    
+     1. Crear int x = 10 y int y = 25                                               
+     2. Imprimir antes: x = 10, y = 25                                              
+     3. Llamar intercambiar(&amp;x, &amp;y) — pasas direcciones                             
+     4. Imprimir después: x = 25, y = 10                                            
+                                                                                    
+     Puntos clave:                                                                  
+                                                                                    
+     - La función recibe int * (punteros)                                           
+     - Al llamar, usas &amp;x y &amp;y (direcciones)                                        
+     - Dentro de la función, *a y *b acceden a los valores reales                   
+     - La función modifica las variables originales, no copias    */
+     # include &lt;stdio.h&gt;//incluye libreria contiene scanf y printf
+     
+     void intercambiar(int *a, int *b);//avisale al compilador que esta funcion existe
+
+     int main(){
+        int x = 10; 
+        int y = 25;
+        printf(&quot;x es = %d Y y es = %d\n&quot;, x, y);
+        intercambiar(&amp;x, &amp;y);//Entrega a la funcion intercambiar dos parametros que contienen la direccion de las variables
+        printf(&quot;x es = %d Y y es = %d\n&quot;, x, y);
+     }
+     //funcion que intercambia valor que recibe por ubicaciones de variables
+     //se necesita un cambo libre para transcribir los datos y no sobreescribir ninguno en el proceso
+     void intercambiar(int *a, int *b){//crea funcion vallada intercambiar que no retorna valores(recibe la ubicacion de la variable a, y la ubicacion de la variable b)
+        int tem = *a;//variable tipo int se le asigna el valor ubicado en la variable a
+        *a = *b; //al valor apuntado por a asignale el valor apunta por b
+        *b = tem;//apunta al valor de b y asignale el valor de tem
+
+        
+     }</pre>
+<h2>ETAPA 7 - structs</h2>
+<h3>estudiante.c</h3>
+<pre>/*🏋️ Ejercicio: etapa7-structs/estudiante.c                                      
+                                                                                    
+     Crea un programa que:                                                          
+                                                                                    
+     1. Defina un struct Estudiante con: nombre, edad, promedio                     
+     2. Pida al usuario los3 datos                                                  
+     3. Muestre un reporte formateado                                               
+                                                                                    
+     Pista para leer el nombre con espacios:                                        
+                                                                                    
+     fgets(yilmar.nombre, 50, stdin);                                               
+     yilmar.nombre[strcspn(yilmar.nombre, &quot;\n&quot;)] = &#x27;\0&#x27;;                            
+                                                                                    
+     Salida esperada:                                                               
+                                                                                    
+     Nombre: Yilmar Sosa                                                            
+     Edad: 25                                                                       
+     Promedio: 86.60                               */
+     #include &lt;stdio.h&gt;//incluye scanf, printf
+     #include &lt;string.h&gt;//incluye fgets
+
+
+        typedef struct{ //se le asinara un alias a la palabra reservada struct
+            //internamente al struct creamos los siguientes miembros.
+            char nombre[50];//char de 50 espacios
+            int edad; //variable tipo int
+            float promedio; //variable tipo float
+        }Estudiante; //nombre del molde de la struct por el alias podemos llamar a la struct solo con el nombre del molde
+    int main(){
+        Estudiante Yilmar; //Llamos al molde de la struct...Estudiante y creamos una estructura llamada Yilmar
+        printf(&quot;¿Como te llamas?\n&quot;); //pregunta el nombre
+        fgets(Yilmar.nombre, 50, stdin);//scanea texto, guardalo en el miembro nombre de la struct Yilmar
+        Yilmar.nombre[strcspn(Yilmar.nombre, &quot;\n&quot;)] = &#x27;\0&#x27;;//En el miembro nombre de la struct Yilmar busca la concidencia con &quot;\n&quot; y asignale a esa posicion &#x27;\0?
+
+        printf(&quot;¿Cuantos años tienes?\n&quot;);//se pregunta al usuario
+        scanf(&quot;%d&quot;, &amp;Yilmar.edad);//se almacena el dato de tipo int en la direccion del campo estructura Yilmar.edad
+
+        printf(&quot;¿Cual fue tu promedio?\n&quot;);//se le pregunta al usuario
+        scanf(&quot;%f&quot;, &amp;Yilmar.promedio);//se recibe un dato tipo float por el usuario y se almacena en la direccion Yilmar.promedio
+
+        
+        
+
+        printf(&quot;Nombre: %s\n&quot;, Yilmar.nombre);
+        
+        printf(&quot;Edad: %d\n&quot;, Yilmar.edad);
+
+        printf(&quot;Promedio: %.2f\n&quot;, Yilmar.promedio);
+
+        return 0;
+     }
+     </pre>
+<h3>reporteprueba.c</h3>
+<pre>/*
+Objetivo del programa:
+
+     1. Definir struct Estudiante (nombre, edad, promedio)
+     2. Crear un arreglo de3 estudiantes
+     3. Pedir los datos de cada uno
+     4. Crear una función void mostrarEstudiantes(struct Estudiante *est, int tam)
+         que recorra el arreglo usando punteros (est + i) y muestre cada
+        estudiante
+     5. Crear una función struct Estudiante* buscarMejor(struct Estudiante *est,
+        int tam) que retorne un puntero al estudiante con mayor promedio
+
+     Lo nuevo aquí:
+
+     - est + i = puntero aritmético (avanzar positiones en el arreglo)
+     - *(est + i) = acceder al struct en esa posición
+     - Retornar un puntero desde una función
+
+     Salida esperada:
+
+     Estudiante 1: Yilmar, 25, 86.60
+     Estudiante 2: Ana, 22, 91.30
+     Estudiante 3: Pedro, 28, 78.50
+
+     Mejor promedio: Ana (91.30)           */
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+struct Estudiante{
+    char nombre[40];
+    int edad;
+    float promedio;
+};
+// void mostrarEstudiantes(struct Estudiante *est, int tam);
+// FUNCION PARA MOSTRAR ESTUDIANTES CON PUNTEROS
+void mostrarEstudiantes(struct Estudiante *est, int tam){//no retorna mostrarEstudiantes recibe como parametros(un arreglo del structs en este caso del molde Estudiante, segundo parametro una variable de tipo int)
+    for (int i = 0; i &lt; tam; i++){//i inica en 0, se repitara en bucle las instrucciones mientras i &lt; tam, pero el iniciador aumentar su valor a +1 con cada vuelta finalizada
+        printf(&quot;Estudiante %d: %s %d años. Tiene un promedio de %.2f\n&quot;, i + 1, (est + i)-&gt;nombre, (est + i )-&gt;edad, (est + i)-&gt;promedio);//imprime texto con los valos de tipos de datos segun su orden
+        //recibido de una suma, puntero a est + la posicion del valor de i que apunta al miembro(ejemplo nombre en el primer caso)
+    }
+}
+    int main()
+{
+
+    struct Estudiante Estudiantes[3];//LLamamos al molde de structura Estudiante y creamos un arreglo de estructuras llamado Estudiantes que almacenara 3 struct
+    int tam = sizeof(Estudiantes) / sizeof(Estudiantes[0]);//creacion de variable tipo int que guarda como valor la operacion matematica en bytes (Cuantos bytes mide el arreglo de struct) dividido en el espacion en bytes de un indice en este caso que ocupa una struct completa individualmente 
+    for (int i = 0; i &lt; tam; i++)
+    {
+        printf(&quot;Eres el estudiante %d\n&quot;, i + 1);
+
+        printf(&quot;¿Cómo te llamas?\n&quot;);
+        scanf(&quot; %[^\n]&quot;, Estudiantes[i].nombre);//escanea un tipo de dato que recibe un char y lo guarda sin \n que aparce por lo general al scanear un dato, y lo almacena la direccion de la struct Estudiantes.nombre en el indice que representa el valor de i 
+        // scanf(Estudiantes[i].nombre, 40, stdin);
+        // Estudiantes[i].nombre[strcspn(Estudiantes[i].nombre, &quot;\n&quot;)] = &#x27;\0&#x27;;
+
+        printf(&quot;¿Cuantos años tienes?\n&quot;);
+        scanf(&quot;%d&quot;, &amp;Estudiantes[i].edad);
+        // while(getchar() != &#x27;\n&#x27;); //while de consumo
+
+        printf(&quot;¿Cual fue tu promedio?\n&quot;);
+        scanf(&quot;%f&quot;, &amp;Estudiantes[i].promedio);
+        // while(getchar() != &#x27;\n&#x27;);
+    }
+    mostrarEstudiantes(Estudiantes, tam); //llamos la funicon pasamos como parametros la direccion de Estudiantes(en este cado un arreglo de struct, segundo parameto le pasamos la variable tam(que en este caso cumple con la condicion de ser una variable de tipo entero ))
+    return 0;
+}</pre>
+<h2>ETAPA 8 - Archivos</h2>
+<h3>guardar.c</h3>
+<pre>#include &lt;stdio.h&gt; //incluye la libreria que permite escanear e imprimir en pantalla
+
+int main(){ //funcion madre de los programas
+    char nombre[50]; //crea un arreglo de 50 caracteres para guardar el nombre
+    int edad; //crea la variable que guardara la edad
+
+    printf(&quot;¿Cómo te llamas\n?&quot;); //imprime el mensaje pidiendo el nombre
+    scanf(&quot; %[^\n]&quot;, nombre); //recibe todo hasta un salto de linea (permite espacios) y guardalo en nombre
+
+    printf(&quot;¿Cuantos años tiene\n&quot;); //imprime el mensaje pidiendo la edad
+    scanf(&quot;%d&quot;, &amp;edad); //recibe un dato de tipo entero y guardalo en la direccion de memoria edad
+
+    FILE *Archivos = fopen(&quot;datos.txt&quot;, &quot;w&quot;); //abre el archivo datos.txt en modo escritura (lo borra y recrea), o no, devuelve NULL si falla
+    fprintf(Archivos, &quot;%s %d\n&quot;, nombre, edad); //escribe en el archivo el nombre y la edad
+    fclose(Archivos); //cierra el archivo (guarda los cambios)
+
+    FILE *Arch = fopen(&quot;datos.txt&quot;, &quot;r&quot;); //abre el archivo datos.txt en modo lectura
+    char linea[100]; //crea un arreglo de 100 caracteres para guardar una linea
+    fgets(linea, 100, Arch); //lee una linea del archivo y guardala en linea
+    printf(&quot;Contenido: %s&quot;, linea); //imprime el contenido leido
+    fclose(Arch); //cierra el archivo
+
+}</pre>
+<h2>ETAPA 9 - Memoria dinamica</h2>
+<h3>dinamico.c</h3>
+<pre>#include &lt;stdio.h&gt;//scanf, printf
+#include &lt;stdlib.h&gt;//memoria dinamica malloc y realloc
+
+int main(){
+    int cantidad; //crea la variable que guardara cuantos numeros se van a ingresar
+    
+    printf(&quot;Cuantos valores quiere ingresar\n&quot;); //imprime el mensaje pidiendo la cantidad
+    scanf(&quot;%d&quot;, &amp;cantidad); //recibe un dato de tipo entero y guardalo en la direccion de memoria cantidad
+    int* valor = malloc (cantidad * sizeof(int)); //operacion que calcula espacio en bytes que permitira registrar la cierta cantidad de datos en el array
+    printf(&quot;Sus valores a agregar son: %d\n\nA continuación empiece a ingresarlos\n&quot;, cantidad); //imprime la cantidad y el mensaje de inicio
+        
+    for(int i = 0; i &lt; cantidad; i++){
+    scanf(&quot;%d&quot;, &amp;valor[i]);//CICLO QUE PERMITE AGREGAR VALORES AL ARREGLO
+        
+    }
+    for(int i = 0; i &lt; cantidad; i++){
+    printf(&quot;Numero %d: %d\n&quot;, i+1, valor[i]);//CICLO QUE MUESTRA POR PANTALLA 
+    }//CADA UNO DE LOS ARREGLOS
+    //ENCONTRA LE NUMERO MAYOR 
+    int max = valor[0]; //se crea una variable que guardara el puntero de valor posicion 0
+    for(int i = 1; i &lt; cantidad; i++){
+        if(valor[i] &gt; max  ){//si la posicion i(1 + 1 e cada vuelta) es mayor que la posicion 0
+           max = valor[i];   //maximo reescribira su dato como  la posicion (1 + 1 en cada vuelta)
+        }     //como resultado max encontrara el numero mayor y por sus reescrituras guardara ese unico numero.
+     }
+     printf(&quot;El numero mayor de los que proporciono  es: %d\n&quot;, max); //imprime el numero mayor
+    free(valor); //libera la memoria reservada con malloc
+    return 0; //el programa termina bien
+    
+}</pre>
+<h3>free.c</h3>
+<pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt; //libreria que contiene funciones de memoria dinamica
+int main(){
+    printf(&quot;¿Cuantos elementos quieres almacenar?\n&quot;);
+    int longitud; //Variable que recibira el numero por pantalla.
+    scanf(&quot;%d&quot;, &amp;longitud); //se escanea tipo de dato y direccion donde se alojara.
+
+    float* valores = (float*) malloc (longitud * sizeof(float)); //el valor retorna retormnara al puntero valores de tipo float
+    //reserva memoria en bytes mediante la operacion longitud * los bytes de un float 
+    if(valores  == NULL){ //En caso de no tener memoria lo anterior devolvera NULL por lo que se crea una condicion para que reporte cuando eso pase
+        printf(&quot;No tienes tanta memoria.\n&quot;);
+        return 1; //SI SE CUMPLE LA CONDICON ANTERIOR SE TERMINA EL PROGRAMA(reportando que termino mal)
+    }
+    for (int i = 0; i &lt; longitud; i++){//UN CICLO QUE NOS RECORRERA posiciones segun los parametros
+        valores[i] = 5.55E5;//NOTACION CIENTIFICA-NOTACION EXPONECIAL
+    }
+    printf(&quot;Todo esta correcto\n&quot;); 
+    free(valores); //SE LIBERA EL ESPACIO DE MEMORIA QUE SE HABIA ASIGNADO A VALORE
+
+    return 0;
+}</pre>
+<h2>ETAPA 10 - Proyecto integrador</h2>
+<h3>Agenda.c</h3>
+<pre>/*
+ARCHIVO: Agenda.c (version funcional + tus errores comentados para comparar)
+Este archivo SÍ compila y funciona. Cada bloque &quot;TÚ ESCRIBISTE&quot; muestra tu
+error original comentado, y debajo la corrección que se usa. Así ves qué
+estaba mal y por qué, en el mismo archivo funcional.
+*/
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+struct Alumno {
+    char nombre[50];
+    int edad;
+    float promedio;
+};
+/* TU ESCRITE: el struct tenia un campo int **notas que sobraba
+struct Alumno{
+    char nombre[50];
+    int edad;
+    int **notas;    // &lt;-- ERROR 1: no era parte del ejercicio, sobraba
+    float promedio;
+}                   // &lt;-- ERROR 2: faltaba el punto y coma (;) al final
+*/
+
+int main(){
+    struct Alumno alumnos[10];   // arreglo fijo de 10
+    int total = 0;               // cuenta real de alumnos
+    int opcion;                  // se declara aqui (fuera del do) para el while
+
+    /* TÚ ESCRIBISTE (ERROR 3): total daba 10, no 0
+    int total = sizeof(alumnos) / sizeof(alumnos[0]);   // 10 = capacidad, no cuantos hay
+    int total = 0;                                      // 0 = cuantos hay ahora  CORRECTO
+    */
+
+    printf(&quot;Bienvenido a la agenda de alumnos\n\n&quot;);
+
+    do{
+        printf(&quot;=== MENU ===\n&quot;);
+        printf(&quot;1) Agregar alumno\n&quot;);
+        printf(&quot;2) Listar alumnos\n&quot;);
+        printf(&quot;3) Salir\n&quot;);
+        printf(&quot;Opcion: &quot;);
+        scanf(&quot;%d&quot;, &amp;opcion);
+        while(getchar() != &#x27;\n&#x27;);   // limpia el Enter que deja scanf
+
+        /* TÚ ESCRIBISTE (ERROR 4 y 5):
+        switch (alumnos)   // ERROR 4: no evaluabas la opcion sino el arreglo
+        {                  // y faltaba la variable opcion + su scanf
+            ...
+        }while(alumnos != 3);   // ERROR 5: comparabas el arreglo, no la opcion
+        CORRECTO (se usa abajo): switch(opcion) ... }while(opcion != 3);
+        */
+
+        switch (opcion)
+        {
+        case 1:  // AGREGAR
+            if(total &gt;= 10){
+                printf(&quot;No hay espacio, ya hay 10 alumnos\n&quot;);
+            }
+            else{
+                /* TÚ ESCRIBISTE (ERROR 6): usabas un for para agregar UN alumno
+                for(int i = 0; i &lt; total; i++){   // sobra: solo se agrega a alumnos[total]
+                    scanf(&quot; %[^\n]&quot;, &amp;alumnos[i].nombre);   // el &amp; sobra en arreglos (ERROR 7)
+                    scanf(&quot;%d&quot;, alumnos[i].edad);           // falta &amp;  (ERROR 8)
+                    scanf(&quot;%d&quot;, &amp;alumnos[i].promedio);      // %d deberia ser %f (ERROR 9)
+                }
+                CORRECTO (abajo): sin for, con total como indice, fgets para el nombre,
+                &amp; para edad, %f para promedio.
+                */
+                printf(&quot;\n-- Agregando alumno %d --\n&quot;, total + 1);
+
+                printf(&quot;Nombre: &quot;);
+                fgets(alumnos[total].nombre, 50, stdin);
+                alumnos[total].nombre[strcspn(alumnos[total].nombre, &quot;\n&quot;)] = &#x27;\0&#x27;;
+
+                printf(&quot;Edad: &quot;);
+                scanf(&quot;%d&quot;, &amp;alumnos[total].edad);
+                while(getchar() != &#x27;\n&#x27;);
+
+                printf(&quot;Promedio: &quot;);
+                scanf(&quot;%f&quot;, &amp;alumnos[total].promedio);
+                while(getchar() != &#x27;\n&#x27;);
+
+                total++;   // ahora hay un alumno mas
+                printf(&quot;Alumno guardado. Total: %d\n\n&quot;, total);
+            }
+            break;
+
+        case 2:  // LISTAR
+            if(total == 0){
+                printf(&quot;\nNo hay alumnos registrados todavia\n\n&quot;);
+            }
+            else{
+                /* TÚ ESCRIBISTE (ERROR 10): en LISTAR pedias datos con scanf.
+                Listar debe MOSTRAR, no leer.
+                for(int i = 0; i &lt; total; i++){
+                    scanf(...);   // &lt;-- eso era de AGREGAR, no de listar
+                }
+                CORRECTO (abajo): usar printf para mostrar cada campo por separado,
+                con %s para nombre y %f para promedio.
+                */
+                printf(&quot;\n-- Lista de alumnos --\n&quot;);
+                for(int i = 0; i &lt; total; i++){
+                    printf(&quot;Alumno %d: %s, %d anos, promedio %.2f\n&quot;,
+                           i + 1, alumnos[i].nombre, alumnos[i].edad, alumnos[i].promedio);
+                }
+                printf(&quot;\n&quot;);
+            }
+            break;
+
+        case 3:  // SALIR
+            printf(&quot;Nos vemos pronto\n&quot;);
+            break;
+
+        default:
+            printf(&quot;Opcion incorrecta, intenta de nuevo\n\n&quot;);
+            break;
+        }
+
+    }while(opcion != 3);
+
+    return 0;
+}</pre>
+<h2>EXAMEN PRUEBA - Inventario</h2>
+<h3>inventario_a_corregir.c</h3>
+<pre>/*
+EXAMEN PRUEBA 2 - Sistema de Inventario (Producto)
+CODIGO TAL COMO ESTA (aun NO corrige, para revisar juntos despues).
+
+IMPORTANTE - regla de acceso segun la firma:
+  Producto *inventario   (una estrella)  -&gt; inventario[i]      sin parentesis
+  Producto **inventario  (dos estrellas) -&gt; (*inventario)[i]   con parentesis
+
+PENDIENTES DE CORREGIR (resumen de la revision):
+ 1. inicializarInventario: `*` suelto en linea propia; if(*capacidad==NULL) es
+    incorrecto (capacidad es int, no puntero); debe comparar *inventario==NULL.
+ 2. agregarProducto: falta `;` en (.*inventario)[i].precio=precio; llaves mal cerradas.
+ 3. buscarProductoPorId: usar (.*inventario)[i] con una estrella esta mal -&gt;
+    debe ser inventario[i]; bug logico: else return -1 corta en la primer
+    posicion sin revisar el resto (debe revisar todo y retornar -1 al final).
+ 4. actualizarCantidad: (.*cantidad)[i] no existe -&gt; inventario[i].cantidad.
+ 5. calcularValorTotal: .valor no existe (es cantidad), [i+1] esta mal -&gt;
+    suma += inventario[i].cantidad * inventario[i].precio.
+ 6. imprimirInventario: parametro es cantidadProductos (no cantidad);
+    inventario.cantidad -&gt; inventario[i].cantidad / inventario[i].precio.
+ 7. liberarInventario: free(**inventario) incorrecto -&gt; free(*inventario);
+    typo &quot;invertario&quot;; falta ;.
+ 8. Varias funciones sin llaves de cierre balanceadas.
+*/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct {
+    int id;
+    char nombre[50];
+    int cantidad;
+    float precio;
+} Producto;
+
+void inicializarInventario(Producto **inventario, int *cantidadProductos, int *capacidad) {
+
+
+
+*cantidadProductos = 0;//* Inicializar cantidadProductos en 0.*/
+*capacidad = 3;/* Inicializar capacidad en 3;*/
+*inventario = malloc(3 * sizeof(Producto));// Reservar memoria dinamica para guardar inicialmente 3 productos.Usar malloc.
+if(*inventario == NULL){
+  printf(&quot;Error al asignar memoria&quot;);// Verificar si la memoria fue asignada correctamente.
+  return;
+}
+}
+void agregarProducto(Producto **inventario, int *cantidadProductos, int *capacidad, int id, char nombre[], int cantidad, float precio) {
+    // code goes here
+    //Esta funcion debe:
+
+// Agregar un nuevo producto al final del inventario.
+if(*cantidadProductos == *capacidad){
+  int nuevacap = *capacidad * 2; //* Si el inventario esta lleno, debe duplicar su capacidad usando realloc.*/
+   Producto * tem = realloc(*inventario, nuevacap * sizeof(Producto)); // Usar un puntero temporal al hacer realloc para no perder la memoria original si falla.
+    if(tem == NULL){
+      printf(&quot;Error no se ha podido expandir la memoria&quot;);
+      return;
+    }
+      *inventario = tem;
+      *capacidad = nuevacap;
+   }
+    int i = *cantidadProductos;
+    (*inventario)[i].id = id;
+    strcpy((*inventario)[i].nombre, nombre);
+    (*inventario)[i].cantidad = cantidad;
+    (*inventario)[i].precio = precio;
+
+    (*cantidadProductos)++;//Actualizar correctamente cantidadProductos.
+
+}
+int buscarProductoPorId(Producto *inventario, int cantidadProductos, int id) {
+
+for(int i = 0; i &lt; cantidadProductos; i++){
+   if(inventario[i].id == id){//* Buscar un producto por su id.*/
+      return i;
+       ////* Retornar el indice donde se encuentra el producto.
+   }
+}  //* Retornar -1 si no existe.
+    return -1;
+}
+
+void actualizarCantidad(Producto *inventario, int cantidadProductos, int id, int nuevaCantidad){
+   int encontrado = 0; 
+   for(int i = 0; i &lt; cantidadProductos; i++){//* Buscar un producto por su id.
+       if(inventario[i].id == id){//Si existe, actualizar su cantidad.
+          inventario[i].cantidad = nuevaCantidad;
+          encontrado = 1;
+    }
+
+   }
+      if(!encontrado){//si nunca se encontro
+          printf(&quot;Producto con ID X no encontrado&quot;);//* Si no existe, imprimir: Producto con ID X no encontrado. */
+}
+}
+
+float calcularValorTotal(Producto *inventario, int cantidadProductos) {
+    int cantidadActual = 0;
+    int suma = 0;
+    for(int i = 0; i &lt; cantidadProductos; i++){// Calcular el valor total del inventario.
+        cantidadActual = inventario[i].cantidad * inventario[i].precio;
+        suma = suma + cantidadActual;// El valor de cada producto es: cantidad * precio
+    }
+    return suma;
+}
+
+void imprimirInventario(Producto *inventario, int cantidadProductos) {
+    // code goes here
+    for(int i = 0; i &lt; cantidadProductos; i++){//Esta funcion debe imprimir todos los productos con el siguiente formato:
+       printf(&quot;D %d | Nombre: %s | Cantidad: %d | Precio: %.2f\n&quot;, i+1, inventario[i].nombre, inventario[i].cantidad, inventario[i].precio);//D: 1 | Nombre: Teclado | Cantidad: 10 | Precio: 25.50
+}
+}
+
+void liberarInventario(Producto **inventario, int *cantidadProductos, int *capacidad) {
+    // code goes here
+    //Esta funcion debe:
+
+free(*inventario);//Liberar la memoria dinamica con free.
+* inventario = NULL;//Colocar el puntero inventario en NULL.*/
+*cantidadProductos = 0;
+*capacidad = 0;//* Reiniciar cantidadProductos y capacidad a 0.
+}
+
+int main() {
+    Producto *inventario = NULL;
+    int cantidadProductos = 0;
+    int capacidad = 0; // Se inicializa en 3 dentro de inicializarInventario()
+
+    inicializarInventario(&amp;inventario, &amp;cantidadProductos, &amp;capacidad);
+
+    agregarProducto(&amp;inventario, &amp;cantidadProductos, &amp;capacidad, 1, &quot;Teclado&quot;, 10, 25.50);
+    agregarProducto(&amp;inventario, &amp;cantidadProductos, &amp;capacidad, 2, &quot;Mouse&quot;, 15, 12.75);
+    agregarProducto(&amp;inventario, &amp;cantidadProductos, &amp;capacidad, 3, &quot;Monitor&quot;, 5, 150.00);
+
+    printf(&quot;Inventario inicial:\n&quot;);
+    imprimirInventario(inventario, cantidadProductos);
+
+    agregarProducto(&amp;inventario, &amp;cantidadProductos, &amp;capacidad, 4, &quot;Audifonos&quot;, 8, 40.00);
+
+    printf(&quot;\nInventario despues de agregar un producto:\n&quot;);
+    imprimirInventario(inventario, cantidadProductos);
+
+    actualizarCantidad(inventario, cantidadProductos, 2, 20);
+
+    printf(&quot;\nInventario despues de actualizar cantidad:\n&quot;);
+    imprimirInventario(inventario, cantidadProductos);
+
+    int indice = buscarProductoPorId(inventario, cantidadProductos, 3);
+
+    if (indice != -1) {
+        printf(&quot;\nProducto encontrado:\n&quot;);
+        printf(&quot;ID: %d | Nombre: %s | Cantidad: %d | Precio: %.2f\n&quot;,
+               inventario[indice].id,
+               inventario[indice].nombre,
+               inventario[indice].cantidad,
+               inventario[indice].precio);
+    } else {
+        printf(&quot;\nProducto no encontrado.\n&quot;);
+    }
+
+    float total = calcularValorTotal(inventario, cantidadProductos);
+    printf(&quot;\nValor total del inventario: %.2f\n&quot;, total);
+
+    liberarInventario(&amp;inventario, &amp;cantidadProductos, &amp;capacidad);
+
+    return 0;
+}</pre>
+<h2>TALLER RUTA 1 - Tarea 2</h2>
+<h3>Yilmar_Galindo_tarea2.c</h3>
+<pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+typedef struct {
+    uint32_t id;
+    unsigned char flags;
+    char nombre[24];
+    uint32_t edad;
+}Estudiante;
+
+typedef struct{
+    uint32_t IdCurso;
+    char NombreCurso[32];
+    uint32_t HorasCredito;
+
+}Curso;
+
+int main(int argc, char *argv[]){
+    
+    //verifica si recibe la cantidad de argumentos que necesitamos.
+    if(argc != 3){
+      printf(&quot;Tus comandos para %s &lt;archivo.bin&gt; &lt;edadMinima&gt; &lt;edadMaxima&gt;&quot;, argv[0]);
+      return 1;
+    }
+    uint32_t cursoBuscado = atoi(argv[2]);
+
+    //lee el documento con el que trabajaremos
+    FILE *f = fopen(argv[1], &quot;rb&quot;);
+    if(f == NULL){
+        printf(&quot;No se pudo abrir\n&quot;);
+         return 1;
+        }
+
+
+    uint16_t magic;
+    uint32_t studentCount, courseCount, enrollCount;
+
+    fread(&amp;magic,        sizeof(magic),        1, f);
+    fread(&amp;studentCount, sizeof(studentCount), 1, f);
+    fread(&amp;courseCount,  sizeof(courseCount),  1, f);
+    fread(&amp;enrollCount,  sizeof(enrollCount),  1, f);
+
+    //creacion de arreglo de Estudiante
+    Estudiante Estudiantes[studentCount];
+
+    //ciclo que guarda los estudiantes con su structura en un arreglo
+    for(uint32_t i = 0; i &lt; studentCount; i++){
+        fread(&amp;Estudiantes[i].id, sizeof(uint32_t), 1, f);
+        fread(&amp;Estudiantes[i].flags, sizeof(char), 1, f);
+        fread(&amp;Estudiantes[i].nombre, 23, 1, f);
+        Estudiantes[i].nombre[23] = &#x27;\0&#x27;;
+        fread(&amp;Estudiantes[i].edad, sizeof(uint32_t), 1, f);
+    }
+
+    //creacion de arreglo de cursos
+    Curso cursos[courseCount];
+    for(uint32_t i = 0; i &lt; courseCount; i++){
+        fread(&amp;cursos[i].IdCurso, sizeof(uint32_t), 1, f);
+        fread(&amp;cursos[i].NombreCurso, 32, 1, f);    
+        fread(&amp;cursos[i].HorasCredito, sizeof(uint32_t), 1, f);
+    }
+
+    uint64_t sumaEdades = 0;
+    uint32_t cantidad = 0;
+
+    //variables seccion de matriculas
+    uint32_t IdEstudiante, IdCurso, anio, Semestre;
+
+    for(uint32_t i = 0; i &lt; enrollCount; i++){
+        fread(&amp;IdEstudiante, sizeof(IdEstudiante), 1, f);        
+        fread(&amp;IdCurso, sizeof(IdCurso), 1, f);
+        fread(&amp;anio, sizeof(anio), 1, f);
+        fread(&amp;Semestre, sizeof(Semestre), 1, f);
+        
+        //si el id curso es diferente al curso buscado saltarlo
+        if(IdCurso != cursoBuscado){
+            continue;
+        }
+    
+
+        for(uint32_t j = 0; j &lt; studentCount; j++){                                              
+             if(Estudiantes[j].id == IdEstudiante){                                  
+                 sumaEdades += Estudiantes[j].edad;                                 
+                 cantidad++;                                                    
+           break;   
+             }
+    }
+}
+    if(cantidad == 0){                                                                                    
+      printf(&quot;Ningun estudiante encontrado para el curso %u\n&quot;, cursoBuscado);                          
+  } else {                                                                                              
+      double promedio = (double)sumaEdades / cantidad;                    
+      printf(&quot;Curso %u | Promedio de edad: %.2f | Estudiantes: %u\n&quot;,                                   
+             cursoBuscado, promedio, cantidad);                                                         
+  }                                                                                                     
+                                                                                                        
+                                                        
+  fclose(f);                                                                                            
+                                                                                                        
+  return 0;
+}</pre>
+<h2>TALLER RUTA 1 - Tarea 3</h2>
+<h3>Yilmar_Galindo_tarea3.c</h3>
+<pre>#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Estructura de un estudiante guardado. 
+typedef struct {
+    uint32_t id;            
+    unsigned char flags;   
+    char nombre[24];        
+    uint32_t edad;          
+} Estudiante;
+
+// Estructura de una matricula guardada.
+typedef struct {
+    uint32_t EstudianteId;  
+    uint32_t anio;  
+    uint32_t Semestre;   
+} Matricula;
+
+int main(int argc, char *argv[]){
+
+
+    if(argc != 2){
+        printf(&quot;Uso: %s &lt;archivo.bin&gt;\n&quot;, argv[0]);
+        return 1;
+    }
+
+    // Abrir archivo binario 
+    FILE *f = fopen(argv[1], &quot;rb&quot;);
+    if(f == NULL){
+        printf(&quot;No se pudo abrir %s\n&quot;, argv[1]);
+        return 1;
+    }
+
+    //Leer encabezado
+    uint16_t magic;
+    uint32_t studentCount, courseCount, enrollCount;
+
+    fread(&amp;magic,        sizeof(magic),        1, f);
+    fread(&amp;studentCount, sizeof(studentCount), 1, f);
+    fread(&amp;courseCount,  sizeof(courseCount),  1, f);
+    fread(&amp;enrollCount,  sizeof(enrollCount),  1, f);
+
+    // Guardar TODOS los estudiantes (id + flags) 
+    //  Luego necesito el genero y tipo de cada studentID.
+    Estudiante estudiantes[studentCount];
+
+    for(uint32_t i = 0; i &lt; studentCount; i++){
+        fread(&amp;estudiantes[i].id,    sizeof(uint32_t),     1, f);
+        fread(&amp;estudiantes[i].flags, sizeof(unsigned char),1, f);
+        fread(estudiantes[i].nombre, 23, 1, f);
+        estudiantes[i].nombre[23] = &#x27;\0&#x27;;
+        fread(&amp;estudiantes[i].edad,  sizeof(uint32_t),     1, f);
+    }
+
+    // Brinco todo el bloque con fseek:
+       
+    fseek(f, (long)courseCount * 40, SEEK_CUR);
+
+    /*crear un arreglo de la struct Matricula la llamamos mat y su capacidad
+    sera enrollCount*/
+    Matricula mat[enrollCount];
+
+    for(uint32_t i = 0; i &lt; enrollCount; i++){
+        uint32_t cid;   /* courseID: leo para avanzar pero no lo uso */
+        fread(&amp;mat[i].EstudianteId,  sizeof(mat[i].EstudianteId),  1, f);
+        fread(&amp;cid,         sizeof(cid),         1, f);
+        fread(&amp;mat[i].anio, sizeof(mat[i].anio), 1, f);
+        fread(&amp;mat[i].Semestre,  sizeof(mat[i].Semestre),  1, f);
+    }
+
+    //Arreglos de contadores 
+    uint32_t hPre[10][5] = {{0}}; 
+    uint32_t mPre[10][5] = {{0}}; 
+    uint32_t hPos[10][5] = {{0}}; 
+    uint32_t mPos[10][5] = {{0}}; 
+
+    //recorrer matricula por matricula 
+    for(uint32_t i = 0; i &lt; enrollCount; i++){
+
+        int esPrimera = 1;           /* supongo que es la primera */
+        for(uint32_t k = 0; k &lt; i; k++){
+            if(mat[k].EstudianteId == mat[i].EstudianteId &amp;&amp;
+               mat[k].anio == mat[i].anio &amp;&amp;
+               mat[k].Semestre  == mat[i].Semestre){
+                esPrimera = 0;     
+                break;
+            }
+        }
+
+        if(esPrimera == 0){
+            continue;             
+        }
+        unsigned char gf = 0;
+        for(uint32_t j = 0; j &lt; studentCount; j++){
+            if(estudiantes[j].id == mat[i].EstudianteId){
+                gf = estudiantes[j].flags;
+                break;
+            }
+        }
+
+        //Sumarlo a su categoria. 
+        int yi = (int)(mat[i].anio - 2020);   
+        int si = (int)mat[i].Semestre;              
+
+        int mujer = (gf &amp; 0x80) ? 1 : 0;   /* F: 1 = femenino */
+        int posgr = (gf &amp; 0x40) ? 1 : 0;   /* G: 1 = posgrado */
+
+        if(mujer &amp;&amp; posgr){
+            mPos[yi][si]++;
+        } else if(mujer &amp;&amp; !posgr){
+            mPre[yi][si]++;
+        } else if(!mujer &amp;&amp; posgr){
+            hPos[yi][si]++;
+        } else {
+            hPre[yi][si]++;
+        }
+    }
+
+    /*Recorre los 10 años y los 4 semestres; imprimo solo las filas
+       que tienen al menos un estudiante. */
+    printf(&quot;Anio  Sem  H-Preg M-Preg H-Posg M-Posg\n&quot;);
+    for(int a = 0; a &lt; 10; a++){
+        for(int s = 1; s &lt;= 4; s++){
+            if(hPre[a][s] || mPre[a][s] || hPos[a][s] || mPos[a][s]){
+                printf(&quot;%u     %u     %-5u  %-5u  %-5u  %-5u\n&quot;,
+                    2020 + a, s, hPre[a][s], mPre[a][s], hPos[a][s], mPos[a][s]);
+            }
+        }
+    }
+
+
+    fclose(f);
+    return 0;
+}</pre>
+</body>
+</html>
