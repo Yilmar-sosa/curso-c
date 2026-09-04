@@ -16,8 +16,8 @@
      Número 4: 7                                                                    
      El máximo es: 42   */
 
-     #include <stdio.h>
-     #include <stdlib.h>
+     #include <stdio.h>//scanf, printf
+     #include <stdlib.h>//memoria dinamica malloc y realloc
 
      int main(){
         int cantidad;
@@ -26,7 +26,7 @@
 
         printf("Cuantos valores quiere ingresar\n");
         scanf("%d", &cantidad);
-        int* valor = malloc (cantidad * sizeof(int)); //operacion que calcula la memoria que se pedira en base a los datos entregados por pantalla;
+        int* valor = malloc (cantidad * sizeof(int)); //operacion que calcula espacio en bytes que permitira registrar la cierta cantidad de datos en el array
         printf("Sus valores a agregar son: %d\n\nA continuación empiece a ingresarlos\n", cantidad);
         
         for(int i = 0; i < cantidad; i++){
